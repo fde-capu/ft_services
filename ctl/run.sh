@@ -5,6 +5,7 @@ sudo apt-get update
 sudo apt-get install docker
 sudo dockerd
 sudo apt-get install virtualbox
+sudo snap install minikube
 
 # Builds image
 docker build -t ft_services .
