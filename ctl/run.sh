@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Foreplay
+sudo apt-get update
+sudo apt-get install docker
+sudo dockerd
+sudo apt-get install virtualbox
+
 # Builds image
 docker build -t ft_services .
 
