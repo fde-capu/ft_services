@@ -6,17 +6,17 @@
 #    By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 17:29:27 by fde-capu          #+#    #+#              #
-#    Updated: 2020/10/09 17:34:51 by fde-capu         ###   ########.fr        #
+#    Updated: 2020/10/09 18:31:42 by fde-capu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FROM		alpine
 LABEL		maintainer=fde-capu
 
-RUN			apk update && \
-			apk add openrc && \
-			apk add mysql mysql-client && \
-			rc-service mariadb start
+RUN			apk update 
+#			apk add openrc && \
+#			apk add mysql mysql-client && \
+#			rc-service mariadb start
 #			apt-get install apt-utils vim procps wget -y && \
 #			apt-get install nginx -y && \
 #			apt-get install php php-fpm php-mysql -y && \
@@ -63,5 +63,5 @@ RUN			apk update && \
 #EXPOSE		80 443
 #
 ## start services
-#COPY		srcs/start_ft_server.sh /
-#ENTRYPOINT	["bash", "/start_ft_server.sh"]
+COPY		srcs/start_ft_services.sh /
+ENTRYPOINT	["bash", "/start_ft_services.sh"]

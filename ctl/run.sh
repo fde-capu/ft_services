@@ -8,13 +8,13 @@
 #	-out srcs/localhost.crt
 
 # Builds image
-docker build -t ft_service .
+docker build -t ft_services .
 
 # Run container
 docker run -d \
-	--name ft_container ft_service
+	--name alpine ft_services
 #	-v "/$(pwd)/srcs/autoindex_folder:/var/www/ft_server/html/autoindex" \
 
 # Just for verbose sake
 docker ps
-docker logs ft_container
+docker logs alpine
