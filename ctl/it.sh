@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker exec -ti alpine /bin/bash
+docker exec -ti alpine /bin/sh

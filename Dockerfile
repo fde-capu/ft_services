@@ -6,7 +6,7 @@
 #    By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 17:29:27 by fde-capu          #+#    #+#              #
-#    Updated: 2020/10/09 18:31:42 by fde-capu         ###   ########.fr        #
+#    Updated: 2020/10/09 19:14:20 by fde-capu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ FROM		alpine
 LABEL		maintainer=fde-capu
 
 RUN			apk update 
+RUN			apk add docker
 #			apk add openrc && \
 #			apk add mysql mysql-client && \
 #			rc-service mariadb start
@@ -64,4 +65,4 @@ RUN			apk update
 #
 ## start services
 COPY		srcs/start_ft_services.sh /
-ENTRYPOINT	["bash", "/start_ft_services.sh"]
+ENTRYPOINT	["sh", "/start_ft_services.sh"]
