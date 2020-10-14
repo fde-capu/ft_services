@@ -8,5 +8,8 @@ sudo apt-get install virtualbox
 sudo apt-get install snap snapd
 sudo snap install minikube
 sudo snap install --classic kubectl
-echo 'export PATH="$PATH:/snap/bin"' >> ~/.profile
-echo "\nPlease run \`source ~/.profile\`.\n"
+if ! $(echo "$PATH" | tr ":" "\n" | grep -qx "/snap/bin") ;
+then
+	echo 'export PATH="$PATH:/snap/bin"' >> ~/.profile
+	echo "\nPlease run \`source ~/.profile\`.\n"
+fi
