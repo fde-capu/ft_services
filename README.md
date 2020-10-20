@@ -16,3 +16,8 @@ Use `ctl/{cmd}` where `{cmd}` is:
 - `n-snap.sh` : creates a snapshot of the container under the name of fde-capu_ft_server
 - `g-retake.sh` : retakes the snapshot created above
 - `autoindex (x|on|off)` : swich autoindex inside the container
+
+to-do list (in progress)
+========================
+
+Solve better $PATH in ctl/dependencies.sh

@@ -2,13 +2,13 @@
 
 
 # Builds image
-docker build -t ft_services .
+#docker build -t ft_services .
 
 # Run container
-docker run --privileged=true -d \
-	--name alpine ft_services
+#docker run --privileged=true -d \
+#	--name alpine ft_services
 #	-v "/$(pwd)/srcs/autoindex_folder:/var/www/ft_server/html/autoindex" \
 
 # Just for verbose sake
-docker ps
-docker logs alpine
+#docker ps
+#docker logs alpine
