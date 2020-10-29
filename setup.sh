@@ -1,8 +1,8 @@
 #!/bin/sh
 
 minikube version
-minikube start --cpus 4 --memory 8192 --disk-size 2g --v=7 --vm-driver=virtualbox
 kubectl version
+minikube start --cpus 4 --memory 8192 --disk-size 2g --v=7 --vm-driver=virtualbox
 minikube status
 mkip=`minikube ip`
 sed "s/{MINIKUBE_IP}/${mkip}-${mkip}/g" srcs/01_metallb-template.yaml > srcs/01_metallb.yaml
