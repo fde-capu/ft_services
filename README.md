@@ -30,6 +30,8 @@ Let's get it on **clustering**!
 Use `ctl/{cmd}` where `{cmd}` is:
 - `status.sh` : logs everything.
 
+---
+
 *this project is part of the 42 São Paulo cursus*
 
 ---
