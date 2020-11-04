@@ -1,23 +1,35 @@
 fde-capu
-===========
+--------
 FT_SERVICES
 ===========
 
 42 São Paulo
 ------------
+This is the current project I am working on.
+It is an introduction to Kubernetes.
+The proposal is sumarized on this chart:
+
+![alt text](https://github.com/fde-capu/ft_services/chart.png "Logo Title Text 1")
+
+Some of the specifications include:
+
+- A `setup.sh` to... set things up.
+- Dockerfiles written by me.
+- One service for container.
+- Use of Alpine Linux.
+- Single IP Load Balancer, only entry point. MetalLB recommended.
+- WordPress on 5050 and redirect 307 from /wordpress.
+- MySQL.
+- phpMyAdmin on port 5000 and redirect reverse proxy8 from /phpmyadmin.
+- nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH.
+- FTPS on port 21.
+- Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard por service.
+
+FORBIDDEN:
+- NodePort, Ingress Controller, kubectl por forward, DockerHub.
+
+It seems unfinished. Because it is.
+Let's get it on **clustering**!
 
 Use `ctl/{cmd}` where `{cmd}` is:
-
-- `run.sh` : makes everything (dind)
-- `clean.sh` : removes ft_server container and ft_server image
-- `o-clean-container.sh` : force remove ft_container
-- `fclean(...).sh` : erases all images and container (caution)
-- `it.sh` : logs into ft_server container shell
-- `n-snap.sh` : creates a snapshot of the container under the name of fde-capu_ft_server
-- `g-retake.sh` : retakes the snapshot created above
-- `autoindex (x|on|off)` : swich autoindex inside the container
-
-to-do list (in progress)
-========================
-
-Solve better $PATH in ctl/dependencies.sh
+- `status.sh` : logs everything.
