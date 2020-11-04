@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:services
+        image: nginx:service
 ---
 apiVersion: v1
 kind: Service
