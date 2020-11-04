@@ -9,7 +9,7 @@ This is the current project I am working on.
 It is an introduction to Kubernetes.
 The proposal is sumarized on this chart:
 
-![alt text](https://github.com/fde-capu/ft_services/chart.png "Logo Title Text 1")
+![42 given cluster chart](https://github.com/fde-capu/ft_services/blob/master/chart.png "Cluster Chart Given by 42")
 
 Some of the specifications include:
 
