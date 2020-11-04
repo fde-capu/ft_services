@@ -1,7 +1,5 @@
-fde-capu
---------
-FT_SERVICES
-===========
+# FT_SERVICES
+### fde-capu
 
 This is the current project I am working on.
 It is an introduction to Kubernetes.
