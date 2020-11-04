@@ -32,6 +32,8 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 *this project is part of the 42 São Paulo cursus*
 
+---
+
 Copyright 2020 fde-capu
 
 Licensed under the Apache License, Version 2.0 (the "License");
