@@ -44,17 +44,23 @@ echo "\n\nBuild: 03_mysql\n===========\n"
 docker build -t mysql:service srcs/03_mysql.d
 echo "\n\nBuild: 04_wordpress\n===========\n"
 docker build -t wordpress:service srcs/04_wordpress.d
+echo "\n\nBuild: 05_phpmyadmin\n===========\n"
+docker build -t phpmyadmin:service srcs/05_phpmyadmin.d
 echo "\n\nkubectl apply -l srcs/.\n===========\n"
 kubectl apply -k srcs/.
 
 echo "\n\nLogs:\n===========\n"
+sleep 5
 kubectl get secrets
 kubectl get pvc
 kubectl get pods
 kubectl get service nginx
 kubectl get service mysql
 kubectl get service wordpress
-minikube service wordpress --url
+
+echo "\nNginx: https://$(minikube ip):443"
+echo "Wordpress: https://$(minikube ip):5050 https://$(minikube ip)/wordpress"
+echo "PhpMyAdmin: https://$(minikube ip):5000 https://$(minikube ip)/phpmyadmin"
 
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'

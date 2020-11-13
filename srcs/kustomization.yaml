@@ -12,3 +12,4 @@ resources:
   - 02_nginx.yaml
   - 03_mysql.yaml
   - 04_wordpress.yaml
+  - 05_phpmyadmin.yaml

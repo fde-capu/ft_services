@@ -6,7 +6,6 @@ var_dbhost="mariadb"
 var_userpassword="user42"
 #randomBlowfishSecret=$(openssl rand -base64 32)
 
-php-fpm7 
 # configure MariaDB
 mysql -e "UPDATE mysql.user SET PASSWORD('$var_rootpassword') WHERE User = 'root'"
 
@@ -46,4 +45,5 @@ echo "
  require_once(ABSPATH . 'wp-settings.php');
 " > /var/www/wordpress/wp-config.php;
 
+php-fpm7 
 nginx -g "daemon off;" && tail -f /dev/null
