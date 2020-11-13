@@ -1,3 +1,8 @@
+#namespace: metallb-system
+#resources:
+#  - github.com/metallb/metallb//manifests?ref=v0.9.5
+#  - configmap.yml 
+#  - secret.yml
 secretGenerator:
 - name: mysql-pass
   literals:
@@ -5,5 +10,5 @@ secretGenerator:
 resources:
   - 01_metallb.yaml
   - 02_nginx.yaml
-  - mysql-deployment.yaml
-  - wordpress-deployment.yaml
+  - 03_mysql.yaml
+  - 04_wordpress.yaml
