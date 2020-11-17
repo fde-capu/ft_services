@@ -46,6 +46,9 @@ echo "\n\nBuild: 04_wordpress\n===========\n"
 docker build -t wordpress:service srcs/04_wordpress.d
 echo "\n\nBuild: 05_phpmyadmin\n===========\n"
 docker build -t phpmyadmin:service srcs/05_phpmyadmin.d
+echo "\n\nBuild: 06_ftps\n===========\n"
+docker build -t ftps:service srcs/06_ftps.d
+
 echo "\n\nkubectl apply -l srcs/.\n===========\n"
 kubectl apply -k srcs/.
 
@@ -61,6 +64,8 @@ kubectl get service wordpress
 echo "\nNginx: https://$(minikube ip):443"
 echo "Wordpress: https://$(minikube ip):5050 https://$(minikube ip)/wordpress"
 echo "PhpMyAdmin: https://$(minikube ip):5000 https://$(minikube ip)/phpmyadmin"
+echo "FTPS: "
+nc -zvn `minikube ip` 21
 
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'

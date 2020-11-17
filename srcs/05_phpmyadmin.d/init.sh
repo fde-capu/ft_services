@@ -9,4 +9,5 @@ mysql -e "FLUSH PRIVILEGES"
 sed -i -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /var/www/webapps/phpmyadmin/config.inc.php
 
 php-fpm7
-nginx -g "daemon off;" && tail -f /dev/null
+nginx -g "daemon off;"
+tail -f /dev/null

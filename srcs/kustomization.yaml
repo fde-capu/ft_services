@@ -13,3 +13,4 @@ resources:
   - 03_mysql.yaml
   - 04_wordpress.yaml
   - 05_phpmyadmin.yaml
+  - 06_ftps.yaml
