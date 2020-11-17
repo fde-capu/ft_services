@@ -2,8 +2,8 @@
 #echo "Hello, master!" > /var/www/html/index.htm
 var_dbname="wordpress"
 var_username="user42"
-var_dbhost="mariadb"
 var_userpassword="user42"
+var_dbhost="mariadb"
 #randomBlowfishSecret=$(openssl rand -base64 32)
 
 # configure MariaDB
