@@ -1,4 +1,4 @@
-# FT_SERVICES
+# ft_services
 ### fde-capu
 
 It is an introduction study to Kubernetes.
@@ -18,7 +18,7 @@ Some of the specifications include:
 - phpMyAdmin on port 5000 and redirect reverse proxy8 from /phpmyadmin.
 - nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH.
 - FTPS on port 21.
-- Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard pern service.
+- Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard per service.
 
 FORBIDDEN:
 - NodePort, Ingress Controller, kubectl port forward, DockerHub.
@@ -37,14 +37,4 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 Copyright 2020 fde-capu
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+This is how I made a Kjubernetes project, afterall, researching on the Internet. I am happy if you find it usefull to your studies. If you find anything profitable, do not use it without getting in touch, and we can work together.
