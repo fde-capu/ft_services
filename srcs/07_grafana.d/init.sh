@@ -1,0 +1,4 @@
+#!/bin/sh
+wget https://dl.grafana.com/oss/release/grafana-7.3.3.linux-amd64.tar.gz
+tar -zxvf grafana-7.3.3.linux-amd64.tar.gz
+tail -f /dev/null

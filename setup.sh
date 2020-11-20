@@ -48,6 +48,10 @@ echo "\n\nBuild: 05_phpmyadmin\n===========\n"
 docker build -t phpmyadmin:service srcs/05_phpmyadmin.d
 echo "\n\nBuild: 06_ftps\n===========\n"
 docker build -t ftps:service srcs/06_ftps.d
+echo "\n\nBuild: 07_Grafana\n===========\n"
+docker build -t grafana:service srcs/07_grafana.d
+echo "\n\nBuild: 08_influxdb\n===========\n"
+docker build -t influxdb:service srcs/08_influxdb.d
 
 echo "\n\nkubectl apply -l srcs/.\n===========\n"
 kubectl apply -k srcs/.
@@ -60,6 +64,9 @@ kubectl get pods
 kubectl get service nginx
 kubectl get service mysql
 kubectl get service wordpress
+kubectl get service ftps
+kubectl get service grafana
+kubectl get service influxdb
 
 echo "\nNginx: https://$(minikube ip):443"
 echo "Wordpress: https://$(minikube ip):5050 https://$(minikube ip)/wordpress"

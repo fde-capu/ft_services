@@ -1,3 +1,3 @@
 #!/bin/sh
-vsftpd
+influxd
 tail -f /dev/null
