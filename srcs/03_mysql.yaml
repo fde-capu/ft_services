@@ -48,9 +48,6 @@ spec:
       - name: mysql
         image: mysql:service
         imagePullPolicy: Never
-        ports:
-        - name: http
-          containerPort: 3306
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
