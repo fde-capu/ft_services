@@ -16,7 +16,7 @@ Some of the specifications include:
 - WordPress on 5050 and redirect 307 from /wordpress.
 - MySQL.
 - phpMyAdmin on port 5000 and redirect reverse proxy8 from /phpmyadmin.
-- nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH.
+- nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH on port 22.
 - FTPS on port 21.
 - Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard per service.
 
