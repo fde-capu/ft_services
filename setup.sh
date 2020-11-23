@@ -54,7 +54,7 @@ echo "\n\nBuild: 08_influxdb\n===========\n"
 docker build -t influxdb:service srcs/08_influxdb.d
 
 echo "\n\nkubectl apply -l srcs/.\n===========\n"
-kubectl apply -k srcs/.
+kubectl apply -v2 -k srcs/.
 
 echo "\n\nLogs:\n===========\n"
 sleep 5
@@ -67,11 +67,13 @@ kubectl get service wordpress
 kubectl get service ftps
 kubectl get service grafana
 kubectl get service influxdb
+kubectl get svc
 
 echo "\nNginx: https://$(minikube ip):443"
+echo "Nginx SSH: \n"
 echo "Wordpress: https://$(minikube ip):5050 https://$(minikube ip)/wordpress"
 echo "PhpMyAdmin: https://$(minikube ip):5000 https://$(minikube ip)/phpmyadmin"
-echo "FTPS: "
+echo "FTPS test: "
 nc -zvn `minikube ip` 21
 
 echo \

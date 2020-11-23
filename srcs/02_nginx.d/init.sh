@@ -1,3 +1,4 @@
 #!/bin/sh
-nginx -g "daemon off;"
+/usr/sbin/sshd
+nginx
 tail -f /dev/null
