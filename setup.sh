@@ -58,23 +58,7 @@ kubectl apply -v2 -k srcs/.
 
 echo "\n\nLogs:\n===========\n"
 sleep 5
-kubectl get secrets
-kubectl get pvc
-kubectl get pods
-kubectl get service nginx
-kubectl get service mysql
-kubectl get service wordpress
-kubectl get service ftps
-kubectl get service grafana
-kubectl get service influxdb
-kubectl get svc
-
-echo "\nNginx: https://$(minikube ip):443"
-echo "Nginx SSH: \n"
-echo "Wordpress: https://$(minikube ip):5050 https://$(minikube ip)/wordpress"
-echo "PhpMyAdmin: https://$(minikube ip):5000 https://$(minikube ip)/phpmyadmin"
-echo "FTPS test: "
-nc -zvn `minikube ip` 21
+ctl/status.sh
 
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'

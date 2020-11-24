@@ -1,6 +1,37 @@
 #!/bin/bash
 
-minikube status
-kubectl get all
-docker ps -a
-docker images -a
+#minikube status
+#kubectl get all
+
+kubectl get secrets
+kubectl get pvc
+kubectl get pods
+kubectl get service nginx
+kubectl get service mysql
+kubectl get service wordpress
+kubectl get service ftps
+kubectl get service grafana
+kubectl get service influxdb
+kubectl get svc
+
+ip="$(minikube ip)"
+
+echo "Nginx SSH:"
+echo "FTPS test must give: \`(UNKNOWN) [$ip] 21 (ftp) open\`: "
+nc -zvn `minikube ip` 21
+echo "For interactive terminal, click:"
+echo "http://$ip/"
+echo "http://$ip:443"
+echo "http://$ip:80"
+echo "http://$ip/wordpress"
+echo "http://$ip:5050"
+echo "http://$ip/phpmyadmin"
+echo "http://$ip:5000"
+echo ""
+echo "https://$ip/"
+echo "https://$ip:443"
+echo "https://$ip:80"
+echo "https://$ip/wordpress"
+echo "https://$ip:5050"
+echo "https://$ip/phpmyadmin"
+echo "https://$ip:5000"
