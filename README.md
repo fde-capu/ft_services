@@ -32,7 +32,8 @@ Use `ctl/{cmd}` where `{cmd}` is:
 ---
 
 ##### Considerations:
-- FTPS is not supported by `l
+
+- To login into ftps, use: `sftp user42@$(minikube ip)`. Password: "user42".
 
 ---
 
