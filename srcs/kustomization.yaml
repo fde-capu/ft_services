@@ -13,6 +13,6 @@ resources:
   - 03_mysql.yaml
   - 04_wordpress.yaml
   - 05_phpmyadmin.yaml
-  - 06_ftps.yaml
   - 07_grafana.yaml
   - 08_influxdb.yaml
+  - 06_ftps.yaml

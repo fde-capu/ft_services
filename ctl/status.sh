@@ -16,9 +16,6 @@ kubectl get svc
 
 ip="$(minikube ip)"
 
-echo "Nginx SSH:"
-echo "FTPS test must give: \`(UNKNOWN) [$ip] 21 (ftp) open\`: "
-nc -zvn `minikube ip` 21
 echo "For interactive terminal, click:"
 echo "http://$ip/"
 echo "http://$ip:443"
