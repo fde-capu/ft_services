@@ -14,8 +14,8 @@ Some of the specifications include:
 - Use of Alpine Linux.
 - Single IP Load Balancer, only entry point. MetalLB recommended.
 - WordPress on 5050 and redirect 307 from /wordpress.
+- phpMyAdmin on port 5000 and reverse proxy from /phpmyadmin.
 - MySQL.
-- phpMyAdmin on port 5000 and redirect reverse proxy8 from /phpmyadmin.
 - nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH on port 22.
 - FTPS on port 21.
 - Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard per service.
@@ -28,6 +28,11 @@ Let's get it on **clustering**!
 
 Use `ctl/{cmd}` where `{cmd}` is:
 - `status.sh` : logs everything.
+
+---
+
+##### Considerations:
+- FTPS is not supported by `l
 
 ---
 
