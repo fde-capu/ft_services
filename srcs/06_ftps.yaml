@@ -30,11 +30,19 @@ spec:
       labels:
         app: ftps
     spec:
+      volumes:
+      - name: ftps-pv-volume
       containers:
       - name: ftps
         image: ftps:service
         ports:
+        - containerPort: 20
         - containerPort: 21
+        - containerPort: 30020
+        - containerPort: 30010
+        volumeMounts:
+        - name: ftps-pv-volume
+          mountPath: /var/lib/ftp/
 ---
 apiVersion: v1
 kind: Service
@@ -50,5 +58,18 @@ spec:
     app: ftps
   ports:
   - protocol: TCP
+    port: 20
+    targetPort: 20
+    name: ftp-20
+  - protocol: TCP
     port: 21
     targetPort: 21
+    name: ftp-21
+  - protocol: TCP
+    port: 30020
+    targetPort: 30020
+    name: ftp-30k20
+  - protocol: TCP
+    port: 30021
+    targetPort: 30021
+    name: ftp-30k21

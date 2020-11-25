@@ -4,8 +4,7 @@ RUN			mkdir -p /run/nginx && \
 			apk add nginx openssh && \
 			mkdir -p /etc/nginx/ssl && \
 			ssh-keygen -A && \
-			echo "yikes"
-#			rm -f /etc/nginx/conf.d/default.conf
+			rm -f /etc/nginx/conf.d/default.conf
 COPY		server* /etc/nginx/ssl/
 RUN			adduser -D user42 && \
 			echo 'user42:user42' | chpasswd
