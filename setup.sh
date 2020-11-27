@@ -25,6 +25,10 @@ echo "Check this out:\n minikube ip: \
 echo "\n\nminikube docker-env\n===========\n"
 eval $(minikube docker-env)
 
+echo "\n\nvsftpd.conf\n========"
+cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
+echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
+
 echo "\n\nminikube addons enable metallb\n===========\n"
 minikube addons enable metallb
 #kubectl apply -f srcs/01_metallb.yaml
@@ -36,7 +40,6 @@ minikube addons enable metallb
 #docker build -t wordpress:service \
 #	srcs/04_wordpress.d
 #kubectl apply -f srcs/04_wordpress.yaml
-
 
 echo "\n\nBuild: 02_nginx\n===========\n"
 docker build -t nginx:service srcs/02_nginx.d

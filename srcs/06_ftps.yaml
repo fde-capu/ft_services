@@ -39,7 +39,7 @@ spec:
         - containerPort: 20
         - containerPort: 21
         - containerPort: 30020
-        - containerPort: 30010
+        - containerPort: 30021
         volumeMounts:
         - name: ftps-pv-volume
           mountPath: /var/lib/ftp/
@@ -60,7 +60,7 @@ spec:
   - protocol: TCP
     port: 20
     targetPort: 20
-    name: ftp-20
+    name: ftp-data
   - protocol: TCP
     port: 21
     targetPort: 21
@@ -68,8 +68,8 @@ spec:
   - protocol: TCP
     port: 30020
     targetPort: 30020
-    name: ftp-30k20
+    name: ftp-passv-30020
   - protocol: TCP
     port: 30021
     targetPort: 30021
-    name: ftp-30k21
+    name: ftp-passv-30021
