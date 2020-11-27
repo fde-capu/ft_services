@@ -25,7 +25,7 @@ echo "Check this out:\n minikube ip: \
 echo "\n\nminikube docker-env\n===========\n"
 eval $(minikube docker-env)
 
-echo "\n\nvsftpd.conf\n========"
+echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
 echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 

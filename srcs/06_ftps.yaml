@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/var/lib/ftp"
+    path: "/home"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +42,7 @@ spec:
         - containerPort: 30021
         volumeMounts:
         - name: ftps-pv-volume
-          mountPath: /var/lib/ftp/
+          mountPath: /home/
 ---
 apiVersion: v1
 kind: Service

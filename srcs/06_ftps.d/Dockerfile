@@ -1,8 +1,8 @@
 FROM		alpine:latest
 RUN			apk update && \
 			apk add vsftpd openssl
-VOLUME		/var/lib/ftp
-COPY		vsftpd.conf-template /etc/vsftpd/vsftpd.conf
+VOLUME		/home
+COPY		vsftpd.conf /etc/vsftpd/vsftpd.conf
 RUN			mkdir -p /etc/ssl/private && \
 			mkdir -p /etc/ssl/certs && \
 			echo "Yikes!"

@@ -33,7 +33,7 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 ##### Considerations:
 
-- To login into ftps, use: `sftp -P 21 user42@$(minikube ip)`. Password: "user42". You cannot login as 'root' for security reasons. Usually would be better the default port 22, but since this port is for Nginx ssh, the diagram asks to use secure file transfer over 21.
+- To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
 
 ---
 
