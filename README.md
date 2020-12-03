@@ -12,11 +12,11 @@ Some of the specifications include:
 - Dockerfiles written by me.
 - One service for container.
 - Use of Alpine Linux.
+- nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH on port 22.
 - Single IP Load Balancer, only entry point. MetalLB recommended.
 - WordPress on 5050 and redirect 307 from /wordpress.
 - phpMyAdmin on port 5000 and reverse proxy from /phpmyadmin.
 - MySQL.
-- nginx on ports 80 and 443 with auto-redirect from 80 to 443. Access through SSH on port 22.
 - FTPS on port 21.
 - Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard per service.
 
@@ -33,6 +33,7 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 ##### Considerations:
 
+- Use `ssh user42@$(minikube ip)`; password: "user42".
 - To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
 
 ---
