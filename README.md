@@ -40,6 +40,7 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 Do not ignore certificate:
 |         | http | https | :80 | :443 | :5000 | /folder | *null* |
+|--- | --- | --- | --- | --- | --- | --- | --- |
 | http    |		 |		 |	   |      |	      |         |        |
 | https   |      |       |     |      |       |         |        |
 | :80     |      |       |     |      |       |         |        |
