@@ -19,19 +19,19 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def		alert(string):
-	print (bcolors.FAIL + '>>> ' + string + ' <<<' + bcolors.ENDC)
+	print (bcolors.FAIL + '>>> ' + str(string) + ' <<<' + bcolors.ENDC)
 	return
 
 def		noice(string):
-	print (bcolors.OKBLUE + '>>> ' + string + ' <<<' + bcolors.ENDC)
+	print (bcolors.OKBLUE + '>>> ' + str(string) + ' <<<' + bcolors.ENDC)
 	return
 
 def		message(string):
-	print (bcolors.WARNING + '' + string + '' + bcolors.ENDC + ':', flush = True)
+	print (bcolors.WARNING + '' + str(string) + '' + bcolors.ENDC + ':', flush = True)
 	return
 
 def		title(string):
-	print (bcolors.BOLD + '' + string + ' ' + bcolors.ENDC, flush = True)
+	print (bcolors.BOLD + '' + str(string) + ' ' + bcolors.ENDC, flush = True)
 	return
 
 ip = str(sys.argv[1])
@@ -157,7 +157,10 @@ ans = [ \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
 
 	[MESSAGE,		'Testing ssh into Nginx'], \
-	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 'Noice interactive!'], \
+	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
+
+	[MESSAGE,		'Testing ftps'], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && pwd && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
 ]
 
 print('\nUnit test : by fde-capu\n')
@@ -171,7 +174,7 @@ else:	print('Done.')
 
 #exit()
 
-def	resume(string):
+def	summary(string):
 	ss = str(string)
 	if len(ss) > STRING_TRUNCATE:
 		return ss[:STRING_TRUNCATE] + '...'
@@ -188,7 +191,7 @@ def try_answer(n):
 		if n[2] == test:
 			noice(test)
 		else:
-			alert('Fail: ' + resume(n[2]) + ', got ' + resume(test))
+			alert('Fail: ' + summary(n[2]) + ', got ' + summary(test))
 
 def	try_fail(n):
 	try:
@@ -200,45 +203,34 @@ def	try_fail(n):
 		else:
 			alert('Fail (errno): ' + n[2] + ': got ' + errno)
 	else:
-		alert('Would have to fail, got: ' + resume(test))
+		alert('Would have to fail, got: ' + summary(test))
 
 def	try_interactive(n):
 	child = pexpect.spawn(n[1])
 	for interact in n[2]:
-		child.expect(interact[0])
-		child.sendline(interact[1])
-	result = str(child.read().decode('utf-8')).split()[1]
+		if interact[0] != '':
+			child.expect(interact[0])
+			child.sendline(interact[1])
+		else:
+			child.sendline(interact[1])
+	if attr(n, 4):
+		result = str(child.read().decode('utf-8')).split()[n[4]]
+	else:
+		result = str(child.read().decode('utf-8'))
 	if result == n[3]:
 		noice(result)
 	else:
-		alert('Expected: ' + n[3] + ', got ' + result)
-	return
-
-def	try_test(n):
-	test = ''
-	try:
-		test = subprocess.check_output(cmd.split()).decode('utf-8')
-	except subprocess.CalledProcessError as error:
-		errno = str(error.returncode)
-		print(">>> Subprocess fail before json, errno = ", errno)
-	else:
-		print(">>> Subprocess success before json: ", resume(test))
-	try:
-		test = json.loads(test)
-	except:
-		print(">>> json fails.")
-	else:
-		print(">>> json success: ", test)
+		alert('Expected: ' + n[3] + ', got ' + str(result))
 	return
 
 def attr(n, v):
 	return len(n) > v
 
 for i, n in enumerate(ans):
-	if n[0] == '':						continue
-	if n[0] == MESSAGE:	title(n[1]);	continue
+	if n[0] == '':							continue
+	if n[0] == MESSAGE:						title(n[1]); continue
 	if attr(n, 3) and n[0] != INTERACTIVE:	message(n[3])
-	if n[0] == INTERACTIVE and attr(n, 4):	message(n[4])
+	if n[0] == INTERACTIVE and attr(n, 5):	message(n[5])
 	cmd = n[1]
 	print('`' + cmd + '`', end = ' ', flush = True)
 	if n[0] == ANSWER:	try_answer(n)
