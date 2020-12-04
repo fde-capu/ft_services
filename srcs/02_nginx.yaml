@@ -7,6 +7,14 @@ data:
     server {
         listen 80;
         listen [::]:80;
+        location /phpmyadmin/ {
+            rewrite ^/phpmyadmin/(.*) /$1 break;
+            proxy_pass https://$host:5000;
+        }
+        location /phpmyadmin {
+            rewrite ^/phpmyadmin / break;
+            proxy_pass https://$host:5000;
+        }
         return 301 https://$host$request_uri;
     }
     server {
@@ -20,6 +28,10 @@ data:
         }
         location /phpmyadmin/ {
             rewrite ^/phpmyadmin/(.*) /$1 break;
+            proxy_pass https://$host:5000;
+        }
+        location /phpmyadmin {
+            rewrite ^/phpmyadmin / break;
             proxy_pass https://$host:5000;
         }
         error_page 497 https://$host$request_uri;

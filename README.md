@@ -36,30 +36,6 @@ Use `ctl/{cmd}` where `{cmd}` is:
 - Use `ssh user42@$(minikube ip)`; password: "user42".
 - To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
 
-#### Unit test:
-
-Do not ignore certificate:
-|         | http | https | :80 | :443 | :5000 | /folder | *null* |
-|---      | ---  | ---   | --- | ---  | ---   | ---     | ---    |
-| http    |		 |		 |	   |      |	      |         |        |
-| https   |      |       |     |      |       |         |        |
-| :80     |      |       |     |      |       |         |        |
-| :443    |      |       |     |      |       |         |        |
-| :5000   |      |       |     |      |       |         |        |
-| /folder |      |       |     |      |       |         |        |
-| *null*  |      |       |     |      |       |         |        |
-
-Ignore certificate:
-|         | http | https | :80 | :443 | :5000 | /folder | *null* |
-|---      | ---  | ---   | --- | ---  | ---   | ---     | ---    |
-| http    |		 |		 |	   |      |	      |         |        |
-| https   |      |       |     |      |       |         |        |
-| :80     |      |       |     |      |       |         |        |
-| :443    |      |       |     |      |       |         |        |
-| :5000   |      |       |     |      |       |         |        |
-| /folder |      |       |     |      |       |         |        |
-| *null*  |      |       |     |      |       |         |        |
-
 ---
 
 *this project is part of the 42 São Paulo cursus*

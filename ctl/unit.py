@@ -31,7 +31,7 @@ def		message(string):
 	return
 
 def		title(string):
-	print (bcolors.BOLD + '\n' + string + ' ' + bcolors.ENDC, flush = True)
+	print (bcolors.BOLD + '' + string + ' ' + bcolors.ENDC, flush = True)
 	return
 
 ip = str(sys.argv[1])
@@ -39,34 +39,142 @@ user = str(sys.argv[2])
 pasw = str(sys.argv[3])
 home = str(os.environ['HOME'])
 
+STRING_TRUNCATE = 35
 MESSAGE = 1
 ANSWER = 2
 FAIL = 3
 INTERACTIVE = 4
+TEST = 5
 FOO = False
 
 ans = [ \
-	[MESSAGE, 'Testing ftps'], \
-	[ANSWER, 'curl -o /dev/null -sw "%{http_code}" ' + ip, '301'], \
-	[FAIL, 'curl -sL ' + ip, '60'], \
-	[ANSWER, 'curl -o /dev/null -sLkw "%{http_code}" ' + ip + '', '200'], \
-	[ANSWER, 'curl -o /dev/null -sLkw "%{http_code}" ' + ip + ':443', '200'], \
-	[ANSWER, 'curl -o /dev/null -sLkw "%{http_code}" ' + ip + ':80', '200'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' uname', 'Linux'], \
-	['', ''], \
-	['', ''], \
-	['', ''], \
+	[MESSAGE,	'Testing nginx'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip, '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip, '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip, '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip, '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip, '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip, '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip, '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip, '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip, '200'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip, '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip, '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip, '200'], \
+
+	[MESSAGE,	'Testing nginx:80'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':80', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':80', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':80', '35'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':80', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':80', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':80', '35'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':80', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':80', '301'], \
+	[FAIL,		'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':80', '35'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':80', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':80', '200'], \
+	[FAIL,		'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':80', '35'], \
+
+	[MESSAGE,	'Testing nginx:443'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':443', '302'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':443', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':443', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':443', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':443', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':443', '200'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':443', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':443', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':443', '200'], \
+
+	[MESSAGE,	'Testing nginx:5000'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':5000', '400'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':5000', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':5000', '400'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':5000', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':5000', '200'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':5000', '200'], \
+
+	[MESSAGE,	'Testing nginx/phpmyadmin'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/phpmyadmin', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/phpmyadmin', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/phpmyadmin', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/phpmyadmin', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/phpmyadmin', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin', '200'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin', '200'], \
+
+	[MESSAGE,	'Testing nginx/phpmyadmin/'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/phpmyadmin/', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/phpmyadmin/', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/phpmyadmin/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/phpmyadmin/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/phpmyadmin/', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
+
+	[MESSAGE,		'Testing ssh into Nginx'], \
+	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', 'Linux'], \
 ]
 
-print('\nUnit test')
-print('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts: (in case there is)')
-subprocess.call(('ssh-keygen "' + home + '/.ssh/known_hosts" -R "' + ip + '"').split())
-print('Done.')
+print('\nUnit test : by fde-capu\n')
 
-def	resumestr(string):
+print('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
+remove_ssh = 'ssh-keygen -f "' + home + '/.ssh/known_hosts" -R "' + ip + '"'
+print('`' + remove_ssh + '`')
+try:	subprocess.check_output(remove_ssh.split())
+except:	alert('Somthin bout mkstemp?')
+else:	print('Done.')
+
+#exit()
+
+def	resume(string):
 	ss = str(string)
-	if len(ss) > 25:
-		return ss[:15] + '...'
+	if len(ss) > STRING_TRUNCATE:
+		return ss[:STRING_TRUNCATE] + '...'
 	else:
 		return ss
 
@@ -74,12 +182,13 @@ def try_answer(n):
 	try:
 		test = json.loads(subprocess.check_output(cmd.split()))
 	except subprocess.CalledProcessError as error:
+		errno = str(error.returncode)
 		alert('Fail, should get: ' + n[2] + ', got errno=' + errno)
 	else:
 		if n[2] == test:
 			noice(test)
 		else:
-			alert('Fail: ' + resumestr(n[1]) + ', got ' + resumestr(test))
+			alert('Fail: ' + resume(n[2]) + ', got ' + resume(test))
 
 def	try_fail(n):
 	try:
@@ -91,10 +200,12 @@ def	try_fail(n):
 		else:
 			alert('Fail (errno): ' + n[2] + ': got ' + errno)
 	else:
-		alert('Would have to fail, got: ' + resumestr(test))
+		alert('Would have to fail, got: ' + resume(test))
 
 def	try_interactive(n):
 	child = pexpect.spawn(n[1])
+	child.expect('(yes/no)?')
+	child.sendline('yes')
 	child.expect('password')
 	child.sendline(pasw)
 	result = str(child.read().decode('utf-8')).split()[1]
@@ -102,6 +213,23 @@ def	try_interactive(n):
 		noice(result)
 	else:
 		alert('Expected: ' + n[2] + ', got ' + result)
+	return
+
+def	try_test(n):
+	test = ''
+	try:
+		test = subprocess.check_output(cmd.split()).decode('utf-8')
+	except subprocess.CalledProcessError as error:
+		errno = str(error.returncode)
+		print(">>> Subprocess fail before json, errno = ", errno)
+	else:
+		print(">>> Subprocess success before json: ", resume(test))
+	try:
+		test = json.loads(test)
+	except:
+		print(">>> json fails.")
+	else:
+		print(">>> json success: ", test)
 	return
 
 def attr(n, v):
@@ -116,5 +244,6 @@ for i, n in enumerate(ans):
 	if n[0] == ANSWER:	try_answer(n)
 	if n[0] == FAIL:	try_fail(n)
 	if n[0] == INTERACTIVE:	try_interactive(n)
+	if n[0] == TEST:	try_test(n)
 
-title('All tests done')
+title('All tests done!')
