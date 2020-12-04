@@ -157,7 +157,7 @@ ans = [ \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
 
 	[MESSAGE,		'Testing ssh into Nginx'], \
-	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', 'Linux'], \
+	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 'Noice interactive!'], \
 ]
 
 print('\nUnit test : by fde-capu\n')
@@ -204,15 +204,14 @@ def	try_fail(n):
 
 def	try_interactive(n):
 	child = pexpect.spawn(n[1])
-	child.expect('(yes/no)?')
-	child.sendline('yes')
-	child.expect('password')
-	child.sendline(pasw)
+	for interact in n[2]:
+		child.expect(interact[0])
+		child.sendline(interact[1])
 	result = str(child.read().decode('utf-8')).split()[1]
-	if result == n[2]:
+	if result == n[3]:
 		noice(result)
 	else:
-		alert('Expected: ' + n[2] + ', got ' + result)
+		alert('Expected: ' + n[3] + ', got ' + result)
 	return
 
 def	try_test(n):
@@ -238,7 +237,8 @@ def attr(n, v):
 for i, n in enumerate(ans):
 	if n[0] == '':						continue
 	if n[0] == MESSAGE:	title(n[1]);	continue
-	if attr(n, 3):	message(n[3])
+	if attr(n, 3) and n[0] != INTERACTIVE:	message(n[3])
+	if n[0] == INTERACTIVE and attr(n, 4):	message(n[4])
 	cmd = n[1]
 	print('`' + cmd + '`', end = ' ', flush = True)
 	if n[0] == ANSWER:	try_answer(n)
