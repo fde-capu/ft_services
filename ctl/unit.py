@@ -160,17 +160,31 @@ ans = [ \
 	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
 
 	[MESSAGE,		'Testing ftps'], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && pwd && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "put ftps-test_file.txt && bye"', [['put', '']], 'Fatal', 2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt && bye"', [], 'transferred', -1], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt -o / && bye"', [], '553', -6], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "get ftps-test_file.txt -o test-ok.txt && bye"', [], 'trusted', -2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o test-ok.txt && bye"', [], 'transferred', -1], \
 ]
 
-print('\nUnit test : by fde-capu\n')
+title('\nUnit test : by fde-capu\n')
 
-print('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
+title('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
 remove_ssh = 'ssh-keygen -f "' + home + '/.ssh/known_hosts" -R "' + ip + '"'
 print('`' + remove_ssh + '`')
 try:	subprocess.check_output(remove_ssh.split())
-except:	alert('Somthin bout mkstemp?')
+except:	message('Somthin bout mkstemp?')
 else:	print('Done.')
+
+title('Preparing ambient.')
+preparation = ['rm -f ftps-test_file.txt', 'rm -f test-ok.txt']
+for p in preparation:
+	child = pexpect.spawn(p)
+f = open("ftps-test_file.txt", "a")
+f.write("ftp-test_file.txt content inside!")
+f.close()
+print('Done.')
 
 #exit()
 
@@ -213,10 +227,9 @@ def	try_interactive(n):
 			child.sendline(interact[1])
 		else:
 			child.sendline(interact[1])
+	result = str(child.read().decode('utf-8'))
 	if attr(n, 4):
-		result = str(child.read().decode('utf-8')).split()[n[4]]
-	else:
-		result = str(child.read().decode('utf-8'))
+		result = result.split()[n[4]]
 	if result == n[3]:
 		noice(result)
 	else:
@@ -237,5 +250,10 @@ for i, n in enumerate(ans):
 	if n[0] == FAIL:	try_fail(n)
 	if n[0] == INTERACTIVE:	try_interactive(n)
 	if n[0] == TEST:	try_test(n)
+
+title('Cleaning')
+for p in preparation:
+	child = pexpect.spawn(p)
+print('Done.')
 
 title('All tests done!')
