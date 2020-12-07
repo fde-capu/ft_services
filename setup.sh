@@ -56,6 +56,10 @@ docker build -t grafana:service srcs/07_grafana.d
 echo "\n\nBuild: 08_influxdb\n===========\n"
 docker build -t influxdb:service srcs/08_influxdb.d
 
+echo "\nCleaning..."
+rm srcs/06_ftps.d/vsftpd.conf
+echo "ok"
+
 echo "\n\nkubectl apply -l srcs/.\n===========\n"
 
 kubectl apply -v2 -k srcs/.

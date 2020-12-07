@@ -54,6 +54,16 @@ spec:
       labels:
         app: nginx
     spec:
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: sql-vol
+        persistentVolumeClaim:
+          claimName: sql-pv-claim
+      - name: influx-vol
+        persistentVolumeClaim:
+          claimName: influx-pv-claim
       containers:
       - name: nginx
         image: nginx:service
@@ -61,14 +71,14 @@ spec:
           - name: nginx-config
             mountPath: /etc/nginx/conf.d/nginx.conf
             subPath: nginx.conf
+          - name: sql-vol
+            mountPath: /mnt/sql
+          - name: influx-vol
+            mountPath: /mnt/influx
         ports:
         - containerPort: 80
         - containerPort: 443
         - containerPort: 22
-      volumes:
-        - name: nginx-config
-          configMap:
-            name: nginx-config
 ---
 apiVersion: v1
 kind: Service

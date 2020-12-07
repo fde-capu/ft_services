@@ -1,8 +1,8 @@
 FROM		alpine:latest
 RUN			mkdir -p /run/nginx && \
+			mkdir -p /etc/nginx/ssl && \
 			apk update && \
 			apk add nginx openssh && \
-			mkdir -p /etc/nginx/ssl && \
 			ssh-keygen -A && \
 			rm -f /etc/nginx/conf.d/default.conf
 COPY		server* /etc/nginx/ssl/

@@ -9,6 +9,7 @@ secretGenerator:
   - password=user42
 resources:
   - 01_metallb.yaml
+  - 01.5_vols.yaml
   - 02_nginx.yaml
   - 03_mysql.yaml
   - 04_wordpress.yaml

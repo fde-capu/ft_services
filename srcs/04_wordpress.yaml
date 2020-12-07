@@ -15,12 +15,19 @@ spec:
       labels:
         app: wordpress
     spec:
+      volumes:
+      - name: influx-vol
+        persistentVolumeClaim:
+          claimName: influx-pv-claim
       containers:
       - name: wordpress
         image: wordpress:service
         ports:
         - name: https
           containerPort: 5050
+        volumeMounts:
+        - name: influx-vol
+          mountPath: /mnt/influx
 ---          
 apiVersion: v1
 kind: Service
