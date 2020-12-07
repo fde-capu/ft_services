@@ -171,7 +171,7 @@ ans = [ \
 title('\nUnit test : by fde-capu\n')
 
 title('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
-remove_ssh = 'ssh-keygen -f "' + home + '/.ssh/known_hosts" -R "' + ip + '"'
+remove_ssh = 'ssh-keygen -R ' + ip + ''
 print('`' + remove_ssh + '`')
 try:	subprocess.check_output(remove_ssh.split())
 except:	message('Somthin bout mkstemp?')

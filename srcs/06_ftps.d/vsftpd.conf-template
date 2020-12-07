@@ -3,7 +3,7 @@ ftpd_banner=Welcome to FTP Server by fde-capu!
 local_enable=YES
 write_enable=YES
 local_umask=022
-local_root=/mnt/sql
+local_root=/home/$USER
 use_localtime=YES
 
 chroot_local_user=NO
