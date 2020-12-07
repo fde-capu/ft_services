@@ -66,7 +66,7 @@ kubectl apply -v2 -k srcs/.
 
 echo "\n\nLogs:\n===========\n"
 sleep 5
-ctl/status.sh
+ctl/logs.sh
 
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'

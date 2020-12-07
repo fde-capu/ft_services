@@ -64,17 +64,22 @@ spec:
       - name: influx-vol
         persistentVolumeClaim:
           claimName: influx-pv-claim
+      - name: home-vol 
+        persistentVolumeClaim:
+          claimName: home-pv-claim
       containers:
       - name: nginx
         image: nginx:service
         volumeMounts:
-          - name: nginx-config
-            mountPath: /etc/nginx/conf.d/nginx.conf
-            subPath: nginx.conf
-          - name: sql-vol
-            mountPath: /mnt/sql
-          - name: influx-vol
-            mountPath: /mnt/influx
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/nginx.conf
+          subPath: nginx.conf
+        - name: sql-vol
+          mountPath: /mnt/sql
+        - name: influx-vol
+          mountPath: /mnt/influx
+        - name: home-vol
+          mountPath: /home
         ports:
         - containerPort: 80
         - containerPort: 443

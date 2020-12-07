@@ -19,6 +19,9 @@ spec:
       - name: sql-vol
         persistentVolumeClaim:
           claimName: sql-pv-claim
+      - name: home-vol 
+        persistentVolumeClaim:
+          claimName: home-pv-claim
       containers:
       - name: ftps
         image: ftps:service
@@ -30,6 +33,8 @@ spec:
         volumeMounts:
         - name: sql-vol
           mountPath: /mnt/sql
+        - name: home-vol
+          mountPath: /home
 ---
 apiVersion: v1
 kind: Service

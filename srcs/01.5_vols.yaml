@@ -24,6 +24,19 @@ spec:
   hostPath:
     path: "/mnt/influx"
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: home-vol
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/home"
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -40,6 +53,18 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: influx-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: home-pv-claim
 spec:
   storageClassName: manual
   accessModes:
