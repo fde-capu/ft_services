@@ -35,7 +35,7 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 - Use `ssh user42@$(minikube ip)`; password: "user42".
 - To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
-- Only two volumes are shared, the sql db, and influx. Ftps have its own volume. All are persistent.
+- Three volumes are persistent and shared, the sql db, influx and /home (as it can be accessible through ssh and sftpd on the same data).
 
 ---
 
