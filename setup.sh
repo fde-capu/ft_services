@@ -22,6 +22,7 @@ sed "s/{MINIKUBE_IP}/${mkip}-${mkip}/g" \
 echo "Check this out:\n minikube ip: \
 	\t\t`minikube ip` \n 01_metallb.yaml: \
 	`cat srcs/01_metallb.yaml | tail -1` \n"
+
 echo "\n\nminikube docker-env\n===========\n"
 eval $(minikube docker-env)
 
