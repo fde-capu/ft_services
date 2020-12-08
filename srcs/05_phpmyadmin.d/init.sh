@@ -1,4 +1,5 @@
 #!/bin/sh
+touch /PHP_MY_ADMIN_CONTAINER
 
 var_username="user42"
 var_userdomain="localhost"
