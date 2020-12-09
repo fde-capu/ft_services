@@ -7,14 +7,6 @@ data:
     server {
         listen 80;
         listen [::]:80;
-        location /phpmyadmin/ {
-            rewrite ^/phpmyadmin/(.*) /$1 break;
-            proxy_pass https://$host:5000;
-        }
-        location /phpmyadmin {
-            rewrite ^/phpmyadmin(.*) /$1 break;
-            proxy_pass https://$host:5000;
-        }
         return 301 https://$host$request_uri;
     }
     server {
@@ -23,15 +15,14 @@ data:
         ssl_certificate /etc/nginx/ssl/server.crt;
         ssl_certificate_key /etc/nginx/ssl/server.key;
         root /www;
-        location /wordpress {
-            return 301 https://$host:5050;
+        location /wordpress/ {
+            return 301 https://$host:5050/$request_uri;
         }
         location /phpmyadmin/ {
+            proxy_set_header HOST $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Real-IP $remote_addr;
             rewrite ^/phpmyadmin/(.*) /$1 break;
-            proxy_pass https://$host:5000;
-        }
-        location /phpmyadmin {
-            rewrite ^/phpmyadmin(.*) /$1 break;
             proxy_pass https://$host:5000;
         }
         error_page 497 https://$host$request_uri;
