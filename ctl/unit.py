@@ -132,7 +132,7 @@ ans = [ \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
 	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/phpmyadmin', '301'], \
 	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/phpmyadmin', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin', '301'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/phpmyadmin', '200'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/phpmyadmin', '200'], \
