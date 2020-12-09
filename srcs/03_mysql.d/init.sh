@@ -15,14 +15,7 @@ EOF
 sed -i s/skip-networking*// /etc/my.cnf.d/mariadb-server.cnf
 mysqld --user=mysql &
 sleep 3
+mysql -e "CREATE DATABASE wordpress"
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
 mysql -e "FLUSH PRIVILEGES"
 tail -f /dev/null
-
-
-# remove skipnetworking from /etc/my.cnf.d/maria...
-
-#[mysqld]
-#port = 3306
-#bind = 0.0.0.0
-#>> /etc/my.cnf.d/ft_services.cnf

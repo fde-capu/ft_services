@@ -1,5 +1,4 @@
 FROM		alpine:latest
-#VOLUME		/var/www/phpmyadmin
 COPY		server* /etc/nginx/ssl/
 COPY		pma_nginx.conf /
 COPY		config.inc.php /

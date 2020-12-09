@@ -1,49 +1,21 @@
 #!/bin/sh
-#echo "Hello, master!" > /var/www/html/index.htm
-var_dbname="wordpress"
-var_username="user42"
-var_userpassword="user42"
-var_dbhost="mariadb"
-#randomBlowfishSecret=$(openssl rand -base64 32)
+touch /WORDPRESS_CONTAINER
+apk update && \
+apk add php7-fpm php7-mbstring php7-mcrypt php7-soap php7-openssl php7-gmp \
+php7-pdo_odbc php7-json php7-dom php7-pdo php7-zip php7-mysqli \
+php7-sqlite3 php7-apcu php7-pdo_pgsql php7-bcmath php7-gd php7-odbc \
+php7-pdo_mysql php7-pdo_sqlite php7-gettext php7-xmlreader php7-xmlrpc \
+php7-bz2 php7-iconv php7-pdo_dblib php7-curl php7-ctype php7-common \
+php7-xml php7-imap php7-cgi fcgi php7-pdo php7-pdo_mysql php7-posix \
+php7-ldap php7-dom php7-session
+apk add nginx openssl wget
 
-# configure MariaDB
-mysql -e "UPDATE mysql.user SET PASSWORD('$var_rootpassword') WHERE User = 'root'"
-
-# configure PHPMyAdmin
-#mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO '$var_username'@'$var_userdomain'"
-#mysql -e "FLUSH PRIVILEGES"
-#sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /var/www/ft_server/html/phpmyadmin/config.sample.inc.php > /var/www/ft_server/html/phpmyadmin/config.inc.php
-#mysql < /var/www/ft_server/html/phpmyadmin/sql/create_tables.sql
-
-# configure WordPress
-#mysql -e "CREATE DATABASE $var_dbname"
-#mysql -e "CREATE USER '$var_username'@'$var_userdomain' IDENTIFIED BY '$var_userpassword'"
-#mysql -e "GRANT ALL PRIVILEGES ON $var_dbname.* TO '$var_username'@'$var_userdomain'"
-#mysql -e "FLUSH PRIVILEGES"
-echo "
- <?php
- define('DB_NAME', '$var_dbname');
- define('DB_USER', '$var_username');
- define('DB_PASSWORD', '$var_userpassword');
- define('DB_HOST', '$var_dbhost');
- define('DB_CHARSET', 'utf8');
- define('DB_COLLATE', '');
- define('AUTH_KEY',			'|||| These ||||////----____....');
- define('SECURE_AUTH_KEY',	'////|||| lines ----____....||||');
- define('LOGGED_IN_KEY',	'----////---- can be ...||||////');
- define('NONCE_KEY',		'____----****^^^^ literally ----');
- define('AUTH_SALT',		'.... anything .... any size ..-');
- define('SECURE_AUTH_SALT', '_______ Change these lines ____');
- define('LOGGED_IN_SALT',	'__ to reset all user sessions _');
- define('NONCE_SALT',		'|||||||||||||||||||||||||||||||');
- \$table_prefix = 'wp_';
- define('WP_DEBUG', false);
- define('FORCE_SSL_ADMIN', true);
- /* Do not edit below this line! */
- if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
- require_once(ABSPATH . 'wp-settings.php');
-" > /var/www/wordpress/wp-config.php;
-
-php-fpm7 
-nginx -g "daemon off;" && tail -f /dev/null
+mkdir -p /run/nginx
+mkdir -p /etc/nginx/ssl
+rm -f /etc/nginx/conf.d/default.conf
+mv /wp_nginx.conf /etc/nginx/conf.d
+wget http://wordpress.org/latest.tar.gz
+tar -zxvf latest.tar.gz -C /var/www
+php-fpm7 &
+nginx &
+tail -f /dev/null
