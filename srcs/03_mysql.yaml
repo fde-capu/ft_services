@@ -25,7 +25,9 @@ spec:
       containers:
       - name: mysql
         image: mysql:service
-        imagePullPolicy: Never
+        ports:
+        - containerPort: 3306
+          name: mysql
         volumeMounts:
         - name: sql-vol
           mountPath: /var/lib/mysql
@@ -41,7 +43,9 @@ metadata:
 spec:
   ports:
   - port: 3306
-    targetPort: http
+    targetPort: 3306
+    protocol: TCP
+    name: mysql
   selector:
     app: mysql
   type: ClusterIP

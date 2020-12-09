@@ -28,10 +28,18 @@ $i = 0;
 $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
+#$cfg['Servers'][$i]['auth_type'] = 'config';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'localhost';
+$cfg['Servers'][$i]['host'] = 'mysql';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
+
+#$cfg['Servers'][$i]['host'] = 'mysql';
+#$cfg['Servers'][$i]['user'] = 'user42';
+#$cfg['Servers'][$i]['password'] = 'user42';
+#$cfg['Servers'][$i]['extension'] = 'mysqli';
+#$cfg['Servers'][$i]['compress'] = false;
+#$cfg['Servers'][$i]['AllowNoPassword'] = false;
 
 /**
  * phpMyAdmin configuration storage settings.
