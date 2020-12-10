@@ -1,10 +1,15 @@
 #!/bin/sh
 touch /NGINX_CONTAINER
-#adduser -D -g 'www' www
+mkdir -p /run/nginx
+mkdir -p /etc/nginx/ssl
+apk update
+apk add nginx openssh
+ssh-keygen -A
+rm -f /etc/nginx/conf.d/default.conf
+adduser -D user42
+echo 'user42:user42' | chpasswd
 mkdir -p /www
-#chown -R www:www /var/lib/nginx
-#chown -R www:www /www
 echo "Nginx on /www from nginx-container." > /www/index.html
-/usr/sbin/sshd
-nginx
+/usr/sbin/sshd &
+nginx &
 tail -f /dev/null
