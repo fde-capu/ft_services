@@ -65,12 +65,10 @@ echo "\n\nkubectl apply -l srcs/.\n===========\n"
 
 kubectl apply -v2 -k srcs/.
 
-echo "\n\nLogs:\n===========\n"
-sleep 5
+echo "\n\nLogs:\n=========== (sleep 30)\n"
+sleep 30
 ctl/logs.sh
 
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
-#minikube dashboard &
-#echo '\n42 São Paulo :: ft_services :: fde-capu\n'

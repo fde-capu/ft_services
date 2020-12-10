@@ -15,9 +15,18 @@ spec:
       labels:
         app: influxdb
     spec:
+      volumes:
+      - name: influx-vol
+        persistentVolumeClaim:
+          claimName: influx-pv-claim
       containers:
       - name: influxdb
         image: influxdb:service
+        ports:
+        - containerPort: 8086
+        volumeMounts:
+        - name: influx-vol
+          mountPath: /var/lib/influxdb
 ---
 apiVersion: v1
 kind: Service
