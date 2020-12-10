@@ -6,6 +6,8 @@ import pexpect
 import re
 
 # # #
+# Make sure all containers are up and running.
+# # #
 
 class bcolors:
     HEADER = '\033[95m'
@@ -166,6 +168,66 @@ ans = [ \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt -o / && bye"', [], '553', -6], \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "get ftps-test_file.txt -o test-ok.txt && bye"', [], 'trusted', -2], \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o test-ok.txt && bye"', [], 'transferred', -1], \
+
+	[MESSAGE,	'Testing nginx:5050'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':5050', '400'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':5050', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':5050', '400'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':5050', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':5050', '302'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':5050', '200'], \
+
+	[MESSAGE,	'Testing nginx/wordpress'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/wordpress', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/wordpress', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/wordpress', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/wordpress', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/wordpress', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/wordpress', '307'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/wordpress', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/wordpress', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/wordpress', '200'], \
+
+	[MESSAGE,	'Testing nginx/wordpress/'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/wordpress/', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/wordpress/', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/wordpress/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/wordpress/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/wordpress/', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/wordpress/', '307'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/wordpress/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/wordpress/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/wordpress/', '200'], \
+
+	[MESSAGE,	'Checking if Wordpress has a preset server is impossible.'], \
+	[MESSAGE,	'User should not see localhost as the default wp server, it should point to mysql db.'], \
+	[MESSAGE,	'mysql must have been preconfigured with initial wp_ lists.'], \
+
+
 ]
 
 title('\nUnit test : by fde-capu\n')
