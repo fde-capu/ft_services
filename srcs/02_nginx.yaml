@@ -18,6 +18,9 @@ data:
         location /wordpress {
             return 307 https://$host:5050;
         }
+        location /grafana {
+            return 307 https://$host:3000;
+        }
         location /phpmyadmin/ {
             proxy_set_header HOST $host;
             proxy_set_header X-Forwarded-Proto $scheme;
