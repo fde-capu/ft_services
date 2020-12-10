@@ -1,6 +1,5 @@
 FROM		alpine:latest
-RUN			apk update && \
-			apk add openssl
+ENV			GRAFANA_VERSION 7.3.3
 EXPOSE		3000
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

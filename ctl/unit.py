@@ -231,7 +231,7 @@ ans = [ \
 	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['(yes/no)?', 'yes'], ['password', pasw]], ':', 0], \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
-	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb".'], \
+	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb". curl must be installed on nginx container.'], \
 	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\'', [['(yes/no)?', 'yes'], ['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["_internal"]]}]}]}', 1], \
 ]
 
