@@ -223,9 +223,13 @@ ans = [ \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/wordpress/', '200'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/wordpress/', '200'], \
 
-	[MESSAGE,	'Checking if Wordpress has a preset server is impossible.'], \
-	[MESSAGE,	'User should not see localhost as the default wp server, it should point to mysql db.'], \
-	[MESSAGE,	'mysql must have been preconfigured with initial wp_ lists.'], \
+	[MESSAGE,	'Checking if Wordpress has a preset server is impossible afaik.'], \
+	[MESSAGE,	'Therefore, mysql must have been preconfigured with initial wordpress database.'], \
+	[MESSAGE,	'If it was mandatory to ssh->nginx->mysql->mysqlDB, it could be tested.'], \
+	[MESSAGE,	'Since this is what I have done, here are the unit tests (mysql container is named "mysql"):'], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpresx;\'"', [['(yes/no)?', 'yes'], ['password', pasw]], 'ERROR', 1], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['(yes/no)?', 'yes'], ['password', pasw]], ':', 0], \
+	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 
 ]
