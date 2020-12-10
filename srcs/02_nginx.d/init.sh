@@ -3,7 +3,7 @@ touch /NGINX_CONTAINER
 mkdir -p /run/nginx
 mkdir -p /etc/nginx/ssl
 apk update
-apk add nginx openssh
+apk add nginx openssh mysql-client
 ssh-keygen -A
 rm -f /etc/nginx/conf.d/default.conf
 adduser -D user42
