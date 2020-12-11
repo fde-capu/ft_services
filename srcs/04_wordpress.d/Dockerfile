@@ -1,7 +1,7 @@
 FROM		alpine:latest
-COPY		server* /etc/nginx/ssl/
-COPY		wp_nginx.conf /etc/nginx/conf.d/
-COPY		wp-config.php /var/www/wordpress/
+COPY		server* /
+COPY		wp_nginx.conf /
+COPY		wp-config.php /
 EXPOSE		5050
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
