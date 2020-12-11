@@ -232,8 +232,9 @@ ans = [ \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb". curl must be installed on nginx container.'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\'', [['(yes/no)?', 'yes'], ['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["_internal"]]}]}]}', 1], \
 ]
+# test if there is a 'grafana' database
+#	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\'', [['(yes/no)?', 'yes'], ['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["_internal"]]}]}]}', 1], \
 
 title('\nUnit test : by fde-capu\n')
 
