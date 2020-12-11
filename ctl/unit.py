@@ -232,7 +232,8 @@ ans = [ \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb", grafana database must be called "grafana"* and curl must be installed on nginx container.\n*) I speak Portuguese and do not care for the Oxford comma.'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep -v grafana', [['(yes/no)?', 'yes'], ['password', pasw]], ''], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep grafana', [['(yes/no)?', 'yes'], ['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["grafana"],["_internal"]]}]}]}', 1] , \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep grafanx', [['(yes/no)?', 'yes'], ['password', pasw]], ':', 0], \
 ]
 # test if there is a 'grafana' database
 
@@ -297,7 +298,10 @@ def	try_interactive(n):
 			child.sendline(interact[1])
 	result = str(child.read().decode('utf-8'))
 	if attr(n, 4):
-		result = result.split()[n[4]]
+		try:
+			result = result.split()[n[4]]
+		except:
+			alert('Missmatch')
 	if result == n[3]:
 		noice(result)
 	else:
