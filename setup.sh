@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+SLEEP_SECONDS=360
 
 echo "\n\nminikube delete\n=========\n"
 minikube delete
@@ -65,8 +66,8 @@ echo "\n\nkubectl apply -l srcs/.\n===========\n"
 
 kubectl apply -v2 -k srcs/.
 
-echo "\n\nLogs:\n=========== (sleep 30)\n"
-sleep 30
+echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
+sleep $SLEEP_SECONDS
 ctl/logs.sh
 
 echo \

@@ -3,6 +3,7 @@
 #minikube status
 #kubectl get all
 
+kubectl cluster-info
 kubectl get secrets
 kubectl get pvc
 kubectl get pods
