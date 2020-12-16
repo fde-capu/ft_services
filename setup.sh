@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-SLEEP_SECONDS=20
+SLEEP_SECONDS=30
 
 echo "\n\nminikube delete\n=========\n"
 minikube delete
