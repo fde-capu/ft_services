@@ -1,6 +1,6 @@
 FROM alpine:latest
 ENV TELEGRAF_VERSION 1.16.3
-RUN set -ex && \
+RUN set -e && \
 	apk upgrade && \
     apk add wget influxdb && \
     wget https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz && \
