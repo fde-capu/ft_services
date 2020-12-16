@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM		alpine:latest
 ENV			TELEGRAF_VERSION 1.16.3
 RUN			set -e && \
 			apk upgrade && \
