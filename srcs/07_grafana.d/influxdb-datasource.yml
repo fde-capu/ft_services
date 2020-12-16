@@ -8,6 +8,6 @@ datasources:
   url: http://influxdb:8086
   password: root
   user: root
-  database: grafana
+  database: telegraf
   version: 1
   editable: false
