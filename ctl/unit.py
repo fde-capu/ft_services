@@ -245,6 +245,8 @@ ans = [ \
 #		[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
 # ^^ cat /etc/issue
 
+# test if grafana is reading from telegraf db
+
 title('\nUnit test : by fde-capu\n')
 
 title('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
