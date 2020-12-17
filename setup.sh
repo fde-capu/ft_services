@@ -1,13 +1,17 @@
 #!/bin/sh
-set -e
+set -ex
+CPUS=4
+MEM='8g'
+SSD='2g'
+DRIVER='docker'
 SLEEP_SECONDS=30
 
 echo "\n\nminikube delete\n=========\n"
 minikube delete
 
 echo "\n\nminikube start\n===========\n"
-minikube start --cpus 4 --memory 8192 \
-	--disk-size 5g --v=7 --vm-driver=virtualbox
+minikube start --cpus $CPUS --memory $MEM \
+	--disk-size $SSD --v=7 --vm-driver=$DRIVER
 
 echo "\n\nmetalLB pre configuration\n===========\n"
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
@@ -33,16 +37,6 @@ echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
 minikube addons enable metallb
-#kubectl apply -f srcs/01_metallb.yaml
-
-#docker build -t nginx:service srcs/02_nginx.d
-#kubectl apply -f srcs/02_nginx.yaml
-#docker build -t mysql:service srcs/03_mysql.d
-#kubectl apply -f srcs/03_mysql.yaml
-#docker build -t wordpress:service \
-#	srcs/04_wordpress.d
-#kubectl apply -f srcs/04_wordpress.yaml
-
 echo "\n\nBuild: 02_nginx\n===========\n"
 docker build -t nginx:service srcs/02_nginx.d
 echo "\n\nBuild: 03_mysql\n===========\n"
@@ -73,3 +67,15 @@ ctl/logs.sh
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
+
+
+#curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+#chmod +x minikube
+#➜  ~ sudo mkdir -p /usr/local/bin
+#➜  ~ sudo install minikube /usr/local/bin
+#sudo groupadd docker
+#sudo usermod -aG docker user42
+#newgrp docker
+# for unit test:
+# sudo apt install lftp
+# source <(kubectl completion zsh)
