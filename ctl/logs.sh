@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#minikube status
-#kubectl get all
+minikube status
 
 kubectl cluster-info
 kubectl get secrets
@@ -33,5 +32,7 @@ echo "https://$ip:443"
 echo "https://$ip:80"
 echo "https://$ip/wordpress"
 echo "https://$ip:5050"
+echo "https://$ip/phpmyadmin"
+echo "https://$ip:5000"
 echo "https://$ip/grafana"
 echo "https://$ip:3000"

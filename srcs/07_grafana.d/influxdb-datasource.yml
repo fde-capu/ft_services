@@ -6,8 +6,8 @@ datasources:
   access: proxy
   orgId: 1
   url: http://influxdb:8086
-  password: root
-  user: root
+  user: telegraf
+  password: metricsmetricsmetricsmetrics
   database: telegraf
   version: 1
   editable: false

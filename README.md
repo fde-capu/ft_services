@@ -6,7 +6,7 @@ The proposal:
 
 ![42 given cluster chart](https://github.com/fde-capu/ft_services/blob/master/chart.png "Cluster Chart Given by 42")
 
-Some of the specifications include:
+Specifications include:
 
 - A `setup.sh` to... set things up.
 - Dockerfiles written by me.

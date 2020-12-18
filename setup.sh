@@ -2,7 +2,8 @@
 set -ex
 CPUS=4
 MEM='8g'
-SSD='2g'
+SSD='4g'
+#DRIVER='virtualbox'
 DRIVER='docker'
 SLEEP_SECONDS=30
 
