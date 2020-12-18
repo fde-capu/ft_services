@@ -13,11 +13,6 @@ echo "\n\nminikube start\n===========\n"
 minikube start --cpus $CPUS --memory $MEM \
 	--disk-size $SSD --v=7 --vm-driver=$DRIVER
 
-echo "\n\nmetalLB pre configuration\n===========\n"
-kubectl get configmap kube-proxy -n kube-system -o yaml | \
-sed -e "s/strictARP: false/strictARP: true/" | \
-kubectl apply -f - -n kube-system
-
 echo "\n\nminikube ip check\n===========\n"
 mkip=`minikube ip`
 sleep 1
@@ -68,7 +63,7 @@ echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
 
-
+# dependencies:
 #curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 #chmod +x minikube
 #➜  ~ sudo mkdir -p /usr/local/bin
@@ -76,6 +71,5 @@ sleep 1
 #sudo groupadd docker
 #sudo usermod -aG docker user42
 #newgrp docker
-# for unit test:
-# sudo apt install lftp
 # source <(kubectl completion zsh)
+# sudo apt install lftp # for unit test:
