@@ -3,10 +3,10 @@
 #  - github.com/metallb/metallb//manifests?ref=v0.9.5
 #  - configmap.yml 
 #  - secret.yml
-secretGenerator:
-- name: mysql-pass
-  literals:
-  - password=user42
+#secretGenerator:
+#- name: mysql-pass
+#  literals:
+#  - password=user42
 resources:
   - 01_metallb.yaml
   - 01.5_vols.yaml

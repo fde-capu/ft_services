@@ -1,6 +1,6 @@
 #!/bin/sh
-touch /INFLUX_AND_TELEGRAF_CONTAINER
+touch /INFLUX_CONTAINER
 set -e
-echo "[[inputs.kubernetes]]" >> /etc/telegraf/telegraf.conf
+ln -s /telegraf.conf /etc/telegraf/telegraf.conf
 influxd &
 exec telegraf

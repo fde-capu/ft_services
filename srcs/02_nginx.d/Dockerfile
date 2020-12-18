@@ -1,9 +1,9 @@
 FROM		alpine:latest
-COPY		server* /etc/nginx/ssl/
-RUN			touch /NGINX_CONTAINER					&& \
-			apk update								&& \
-			apk add nginx openssh mysql-client curl	&& \
-			mkdir -p /run/nginx						&& \
+RUN			apk update
+RUN			apk add nginx
+RUN			apk add openssh	mysql-client curl
+COPY		server* /
+RUN			mkdir -p /run/nginx						&& \
 			mkdir -p /etc/nginx/ssl					&& \
 			ssh-keygen -A							&& \
 			rm -f /etc/nginx/conf.d/default.conf	&& \

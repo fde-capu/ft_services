@@ -1,6 +1,6 @@
 #!/bin/sh
 set -ex
-CPUS=4
+CPUS=3
 MEM='8g'
 SSD='4g'
 #DRIVER='virtualbox'

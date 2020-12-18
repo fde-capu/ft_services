@@ -1,15 +1,8 @@
 #!/bin/sh
-#touch /NGINX_CONTAINER
-#mkdir -p /run/nginx
-#mkdir -p /etc/nginx/ssl
-#apk update
-#apk add nginx openssh mysql-client curl
-#ssh-keygen -A
-#rm -f /etc/nginx/conf.d/default.conf
-#adduser -D user42
-#echo 'user42:user42' | chpasswd
-#mkdir -p /www
-#echo "Nginx on /www from nginx-container." > /www/index.html
+touch /NGINX_CONTAINER
+set -e
+ln /server.key /etc/nginx/ssl/server.key
+ln /server.crt /etc/nginx/ssl/server.crt
 /usr/sbin/sshd &
 nginx &
 tail -f /dev/null

@@ -1,23 +1,13 @@
 #!/bin/sh
-touch /PHP_MY_ADMIN_CONTAINER
-apk update && \
-apk add php7-fpm php7-mbstring php7-mcrypt php7-soap php7-openssl php7-gmp \
-php7-pdo_odbc php7-json php7-dom php7-pdo php7-zip php7-mysqli \
-php7-sqlite3 php7-apcu php7-pdo_pgsql php7-bcmath php7-gd php7-odbc \
-php7-pdo_mysql php7-pdo_sqlite php7-gettext php7-xmlreader php7-xmlrpc \
-php7-bz2 php7-iconv php7-pdo_dblib php7-curl php7-ctype php7-common \
-php7-xml php7-imap php7-cgi fcgi php7-pdo php7-pdo_mysql php7-posix \
-php7-ldap php7-dom php7-session
-apk add nginx openssl phpmyadmin
-#apk add wget mysql mysql-client openssh openssl
-mkdir -p /run/nginx
-mkdir -p /etc/nginx/ssl
-rm -f /etc/nginx/conf.d/default.conf
-mv /pma_nginx.conf /etc/nginx/conf.d
-ln -s /usr/share/webapps/phpmyadmin /var/www
+touch /PHPMYADMIN_CONTAINER
+set -e
 rm -f /usr/share/webapps/phpmyadmin/config.inc.php
-mv /config.inc.php /usr/share/webapps/phpmyadmin
+ln -s /usr/share/webapps/phpmyadmin /var/www
+ln -s /pma_nginx.conf /etc/nginx/conf.d/pma_nginx.conf
+ln -s /config.inc.php /usr/share/webapps/phpmyadmin/config.inc.php
 chmod 644 /usr/share/webapps/phpmyadmin/config.inc.php
+ln /server.key /etc/nginx/ssl/server.key
+ln /server.crt /etc/nginx/ssl/server.crt
 php-fpm7 &
 nginx &
 tail -f /dev/null
