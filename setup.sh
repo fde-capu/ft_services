@@ -58,8 +58,8 @@ echo "\nCleaning..."
 rm srcs/06_ftps.d/vsftpd.conf
 echo "ok"
 
-#echo "\n\nkubectl apply -l srcs/.\n===========\n"
-#kubectl apply -v2 -k srcs/.
+echo "\n\nkubectl apply -l srcs/.\n===========\n"
+kubectl apply -v2 -k srcs/.
 
 echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
 sleep $SLEEP_SECONDS
