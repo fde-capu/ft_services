@@ -7,16 +7,21 @@ SSD='4g'
 DRIVER='docker'
 SLEEP_SECONDS=30
 
+echo "\n\npre-config\n=========\n"
+#source <`kubectl completion zsh`
+
 echo "\n\nminikube delete\n=========\n"
 minikube delete
 
 echo "\n\nminikube start\n===========\n"
-minikube start --cpus $CPUS --memory $MEM \
-	--disk-size $SSD --v=7 --vm-driver=$DRIVER
+#minikube start --cpus $CPUS --memory $MEM --disk-size $SSD --v=7 --vm-driver=$DRIVER
+minikube start --v=7 --vm-driver=$DRIVER
+mkip=`minikube ip`
+ssh-keygen -R $mkip
+kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
 echo "\n\nminikube ip check\n===========\n"
-mkip=`minikube ip`
-sleep 1
+sleep 3
 sed "s/{MINIKUBE_IP}/${mkip}-${mkip}/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
@@ -33,6 +38,7 @@ echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
 minikube addons enable metallb
+
 echo "\n\nBuild: 02_nginx\n===========\n"
 docker build -t nginx:service srcs/02_nginx.d
 echo "\n\nBuild: 03_mysql\n===========\n"
@@ -52,9 +58,8 @@ echo "\nCleaning..."
 rm srcs/06_ftps.d/vsftpd.conf
 echo "ok"
 
-echo "\n\nkubectl apply -l srcs/.\n===========\n"
-
-kubectl apply -v2 -k srcs/.
+#echo "\n\nkubectl apply -l srcs/.\n===========\n"
+#kubectl apply -v2 -k srcs/.
 
 echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
 sleep $SLEEP_SECONDS
@@ -72,5 +77,5 @@ sleep 1
 #sudo groupadd docker
 #sudo usermod -aG docker user42
 #newgrp docker
-# source <(kubectl completion zsh)
 # sudo apt install lftp # for unit test:
+# sudo pkill nginx
