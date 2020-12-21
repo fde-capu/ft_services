@@ -1,7 +1,7 @@
 FROM		alpine:latest
 RUN			apk update
 RUN			apk add influxdb
-#COPY		influxdb.conf /
+COPY		influxdb.conf /
 COPY		telegraf.conf /
 COPY		telegraf-1.16.3_static_linux_amd64.tar.gz /
 RUN			mkdir -p /usr/src /etc/telegraf && \
@@ -13,4 +13,4 @@ RUN			mkdir -p /usr/src /etc/telegraf && \
 EXPOSE		8086
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
-#CMD			["telegraf"]
+CMD			["telegraf"]
