@@ -11,6 +11,7 @@ echo "\n\npre-config\n=========\n"
 #source <`kubectl completion zsh` >> /dev/null
 set -ex
 sudo minikube delete
+sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
