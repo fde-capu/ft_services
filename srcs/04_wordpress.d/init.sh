@@ -3,7 +3,7 @@ touch /WORDPRESS_CONTAINER
 set -e
 ln -s /wp_nginx.conf /etc/nginx/conf.d/wp_nginx.conf
 tar -zxvf wordpress.tar.gz -C /var/www
-mv /wp-config.php /var/www/wordpress
+ln /wp-config.php /var/www/wordpress/wp-config.php
 php-fpm7 &
 nginx &
 tail -f /dev/null

@@ -8,8 +8,9 @@ RUN			mkdir -p /usr/src /etc/telegraf && \
 			tar -C /usr/src -xzf telegraf-*.tar.gz && \
 			rm -f /etc/telegraf/telegraf.conf && \
 			mkdir /etc/telegraf/telegraf.d && \
-			cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/
+			cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \
+			rm -f /etc/influxdb.conf
 EXPOSE		8086
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
-CMD			["telegraf"]
+#CMD			["telegraf"]

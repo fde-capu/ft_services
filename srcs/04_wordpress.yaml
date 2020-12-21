@@ -19,9 +19,6 @@ spec:
       - name: sql-vol
         persistentVolumeClaim:
           claimName: sql-pv-claim
-      - name: influx-vol
-        persistentVolumeClaim:
-          claimName: influx-pv-claim
       containers:
       - name: wordpress
         image: wordpress:service
@@ -31,8 +28,6 @@ spec:
         volumeMounts:
         - name: sql-vol
           mountPath: /mnt/sql
-        - name: influx-vol
-          mountPath: /mnt/influx
 ---          
 apiVersion: v1
 kind: Service
