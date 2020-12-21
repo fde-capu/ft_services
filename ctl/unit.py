@@ -231,13 +231,13 @@ ans = [ \
 	[MESSAGE,	'Therefore, mysql must have been preconfigured with initial wordpress database.'], \
 	[MESSAGE,	'If it was mandatory to ssh->nginx->mysql->mysqlDB, it could be tested.'], \
 	[MESSAGE,	'Since this is what I have done, here are the unit tests (mysql container is named "mysql"):'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpresx;\'"', [['(yes/no)?', 'yes'], ['password', pasw]], 'ERROR', 1], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['(yes/no)?', 'yes'], ['password', pasw]], ':', 0], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpresx;\'"', [['password', pasw]], 'ERROR', 1], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['password', pasw]], ':', 0], \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb", database must be called "telegraf"* and curl must be installed on nginx container.\n*) I speak Portuguese and do not care for the Oxford comma.'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['(yes/no)?', 'yes'], ['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['(yes/no)?', 'yes'], ['password', pasw]], ':', 0], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['password', pasw]], ':', 0], \
 ]
 # test if there is a 'grafana' database
 
