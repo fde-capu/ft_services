@@ -1,21 +1,21 @@
 #!/bin/sh
-set -ex
 CPUS=3
 MEM='8g'
 SSD='4g'
 #DRIVER='virtualbox'
-DRIVER='docker'
+#DRIVER=docker
+DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
-#source <`kubectl completion zsh`
-
-echo "\n\nminikube delete\n=========\n"
-minikube delete
+#source <`kubectl completion zsh` >> /dev/null
+set -ex
+sudo minikube delete
+export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
 #minikube start --cpus $CPUS --memory $MEM --disk-size $SSD --v=7 --vm-driver=$DRIVER
-minikube start --v=7 --vm-driver=$DRIVER
+sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
 ssh-keygen -R $mkip
 kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
@@ -29,15 +29,15 @@ echo "Check this out:\n minikube ip: \
 	\t\t`minikube ip` \n 01_metallb.yaml: \
 	`cat srcs/01_metallb.yaml | tail -1` \n"
 
-echo "\n\nminikube docker-env\n===========\n"
-eval $(minikube docker-env)
+#echo "\n\nminikube docker-env\n===========\n"
+#eval $(minikube docker-env)
 
 echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
 echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
-minikube addons enable metallb
+sudo minikube addons enable metallb
 
 echo "\n\nBuild: 02_nginx\n===========\n"
 docker build -t nginx:service srcs/02_nginx.d
@@ -79,3 +79,4 @@ sleep 1
 #newgrp docker
 # sudo apt install lftp # for unit test:
 # sudo pkill nginx
+# sudo apt install conntrack # for driver=none
