@@ -8,14 +8,12 @@ DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
-#source <`kubectl completion zsh` >> /dev/null
 set -ex
 sudo minikube delete
-sudo rm -rf ~/.minikube
+#sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
-#minikube start --cpus $CPUS --memory $MEM --disk-size $SSD --v=7 --vm-driver=$DRIVER
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
 ssh-keygen -R $mkip
@@ -81,3 +79,4 @@ sleep 1
 # sudo apt install lftp # for unit test:
 # sudo pkill nginx
 # sudo apt install conntrack # for driver=none
+#source <(kubectl completion zsh)
