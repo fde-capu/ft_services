@@ -10,7 +10,7 @@ SLEEP_SECONDS=30
 echo "\n\npre-config\n=========\n"
 set -ex
 sudo minikube delete
-#sudo rm -rf ~/.minikube
+sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
@@ -52,6 +52,8 @@ echo "\n\nBuild: 07_Grafana\n===========\n"
 docker build -t grafana:service srcs/07_grafana.d
 echo "\n\nBuild: 08_influxdb\n===========\n"
 docker build -t influxdb:service srcs/08_influxdb.d
+#echo "\n\nBuild: 08b_telegraf\n===========\n"
+#docker build -t telegraf:sidecar srcs/08b_telegraf.d
 
 echo "\nCleaning..."
 rm srcs/06_ftps.d/vsftpd.conf
