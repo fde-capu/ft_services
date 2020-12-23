@@ -46,21 +46,27 @@ Let's get it on **clustering**!
 
 - Minikube version < 10 does not support virtualization inside virtualization (at least on my Oracles Virtual Machine). For this reason, this project uses `--vm-drive=none`, this also implies Minikube must be sudo run. Please install the latest version and conntrack:
 
+```
 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube
 	sudo mkdir -p /usr/local/bin
 	sudo install minikube /usr/local/bin
 	sudo apt install conntrack # for driver=none
 
+```
 - Check users and groups:
 
+```
 	sudo groupadd docker
 	sudo usermod -aG docker user42
 	newgrp docker
+```
 
 - Kill any running server:
 
+```
 	sudo pkill nginx
+```
 
 ---
 
@@ -71,7 +77,7 @@ Let's get it on **clustering**!
 - Three volumes are persistent and shared, the sql db, influx and /home (/home is accessible through ssh and ftp).
 - mysql-client is installed on nginx for ease when interacting with `ssh -h mysql -uuser42 -puser42`.
 - URL /grafana redirects to port 3000 (unrequested feature).
-- Use `source <(kubectl completion zsh)` for extra juice.
+- Use `source <(kubectl completion zsh)` for extra adrenaline when interacting with `kubectl`.
 
 ---
 
