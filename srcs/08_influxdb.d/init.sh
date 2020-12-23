@@ -5,7 +5,5 @@ set -e
 influxd -config /influxdb.conf &
 sleep 3
 influx -execute "create database telegraf"
-#influx -execute "use telegraf"
-#influx -execute "create user telegraf with password 'metricsmetricsmetricsmetrics' with all privileges"
-#influx -execute "grant all privileges on telegraf to telegraf"
+/bin/sh /telegraf.sh
 tail -f /dev/null

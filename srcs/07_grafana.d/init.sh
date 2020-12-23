@@ -7,4 +7,5 @@ ln -s /influxdb-datasource.yml /conf/provisioning/datasources/influxdb-datasourc
 ln -s /grafana-dashboard-provider.yml /conf/provisioning/dashboards/grafana-dashboard-provider.yml
 ln -s /ft_services-dashboard.json /var/lib/grafana/dashboards/ft_services-dashboard.json
 grafana-server --config /grafana.ini &
+/bin/sh /telegraf.sh
 tail -f /dev/null

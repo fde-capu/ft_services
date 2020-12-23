@@ -16,6 +16,7 @@ COPY		server* /
 COPY		wordpress.tar.gz /
 COPY		wp_nginx.conf /
 COPY		wp-config.php /
+COPY		telegraf* /
 EXPOSE		5050
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

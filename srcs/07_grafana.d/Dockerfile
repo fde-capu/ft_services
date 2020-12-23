@@ -7,6 +7,7 @@ COPY		grafana-dashboard-provider.yml /
 COPY		ft_services-dashboard.json /
 COPY		grafana.ini /
 COPY		server* /
+COPY		telegraf* /
 EXPOSE		3000
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
