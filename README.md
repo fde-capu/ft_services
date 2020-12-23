@@ -34,6 +34,7 @@ Let's get it on **clustering**!
 #### Passwords:
 
 |               | _user_ | _password_ |
+| ---           | ---    | --- |
 | nginx         | user42 | user42 |
 | ftps          | user42 | user42 |
 | mysql         | user42 | user42 |
