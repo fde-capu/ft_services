@@ -26,12 +26,24 @@ FORBIDDEN:
 Let's get it on **clustering**!
 
 #### Use:
+
 - `./setup.sh` : resets Minikube and mount everything over.
 - `ctl/logs.sh` : logs current Kubernetes status.
-- `cd ctl && unit.sh` : run some tests. Requires python3 and lftp.
+- `cd ctl && unit.sh` : run some tests. Requires python3 and lftp. Edit `ctl/unit.sh` to setup the default user and password.
+
+#### Passwords:
+
+              | _user_ | _password_ |
+nginx         | user42 | user42 |
+ftps          | user42 | user42 |
+mysql         | user42 | user42 |
+wordpress     | _unset_ | _unset_ |
+phpmyadmin    | user42 | user42 |
+grafana       | admin | admin |
 
 #### Notes on dependencies:
-- Minikube version < 10 does not support virtualization inside virtualization (at least on my Oracles Virtual Machine). Please install the latest version and conntrack:
+
+- Minikube version < 10 does not support virtualization inside virtualization (at least on my Oracles Virtual Machine). For this reason, this project uses `--vm-drive=none`, this also implies Minikube must be sudo run. Please install the latest version and conntrack:
 
 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x minikube

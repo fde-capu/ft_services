@@ -240,13 +240,6 @@ ans = [ \
 	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
 	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['password', pasw]], ':', 0], \
 ]
-# test if there is a 'grafana' database
-
-#[MESSAGE,		'Testing ssh into Nginx'], \
-#		[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
-# ^^ cat /etc/issue
-
-# test if grafana is reading from telegraf db
 
 title('\nUnit test : by fde-capu\n')
 
