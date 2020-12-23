@@ -164,6 +164,7 @@ ans = [ \
 
 	[MESSAGE,		'Testing ssh into Nginx'], \
 	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
+	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' cat /etc/issue | head -1', [['password', pasw]], 'Alpine', 3], \
 
 	[MESSAGE,		'Testing ftps'], \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
