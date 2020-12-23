@@ -105,7 +105,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -165,7 +165,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 8,
@@ -184,7 +184,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -238,7 +238,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -247,7 +247,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Disk",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -298,7 +298,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 8,
@@ -317,7 +317,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -371,7 +371,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -380,7 +380,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -431,7 +431,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 8,
@@ -450,7 +450,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -504,7 +504,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -513,7 +513,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Load",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -564,7 +564,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 4,
@@ -583,7 +583,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -637,7 +637,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -646,7 +646,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Reads",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -697,7 +697,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 4,
@@ -716,7 +716,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -770,7 +770,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -779,7 +779,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Disk I/O",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -830,7 +830,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 8,
@@ -849,7 +849,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -903,7 +903,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -912,7 +912,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Buffered Memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -963,7 +963,7 @@
         "overrides": []
       },
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 5,
       "gridPos": {
         "h": 5,
         "w": 8,
@@ -982,7 +982,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1036,7 +1036,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "ftps"
+              "value": "{HOSTNAME}"
             }
           ]
         }
@@ -1045,7 +1045,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "",
+      "title": "Kernel Entropy",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1110,7 +1110,7 @@
     ]
   },
   "timezone": "",
-  "title": "ftps",
-  "uid": "QNiyWFbGk",
+  "title": "{HOSTNAME}",
+  "uid": "{DASHUID}",
   "version": 1
 }
