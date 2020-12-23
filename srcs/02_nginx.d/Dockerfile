@@ -11,6 +11,7 @@ RUN			mkdir -p /run/nginx						&& \
 			echo 'user42:user42' | chpasswd			&& \
 			mkdir -p /www							&& \
 			echo "Nginx on /www from nginx-container." > /www/index.html
+COPY		telegraf* /
 EXPOSE		22 80 443
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
