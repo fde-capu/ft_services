@@ -17,6 +17,7 @@ kubectl get svc
 ip="$(minikube ip)"
 
 echo "For interactive terminal, click:"
+echo ""
 echo "http://$ip/"
 echo "http://$ip:443"
 echo "http://$ip:80"

@@ -2,13 +2,11 @@
 CPUS=3
 MEM='8g'
 SSD='4g'
-#DRIVER='virtualbox'
-#DRIVER=docker
 DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
-set -ex
+set -e
 sudo minikube delete
 sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
@@ -20,16 +18,13 @@ ssh-keygen -R $mkip
 kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
 echo "\n\nminikube ip check\n===========\n"
-sleep 3
 sed "s/{MINIKUBE_IP}/${mkip}-${mkip}/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
 echo "Check this out:\n minikube ip: \
 	\t\t`minikube ip` \n 01_metallb.yaml: \
 	`cat srcs/01_metallb.yaml | tail -1` \n"
-
-#echo "\n\nminikube docker-env\n===========\n"
-#eval $(minikube docker-env)
+sleep 3
 
 echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
@@ -67,16 +62,3 @@ ctl/logs.sh
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
-
-# dependencies:
-#curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-#chmod +x minikube
-#➜  ~ sudo mkdir -p /usr/local/bin
-#➜  ~ sudo install minikube /usr/local/bin
-#sudo groupadd docker
-#sudo usermod -aG docker user42
-#newgrp docker
-# sudo apt install lftp # for unit test:
-# sudo pkill nginx
-# sudo apt install conntrack # for driver=none
-#source <(kubectl completion zsh)

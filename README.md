@@ -18,16 +18,36 @@ Specifications include:
 - phpMyAdmin on port 5000 and reverse proxy from /phpmyadmin.
 - MySQL.
 - FTPS on port 21.
-- Grafana monitoring all containers, on port 3000, linked with InfluxDB (on separate container). One dashboard per service.
+- Grafana monitoring all containers, on port 3000, linked to InfluxDB (on separate container). One dashboard per service.
 
 FORBIDDEN:
 - NodePort, Ingress Controller, kubectl port forward, DockerHub.
 
-It seems unfinished. Because it is.
 Let's get it on **clustering**!
 
-Use `ctl/{cmd}` where `{cmd}` is:
-- `status.sh` : logs everything.
+#### Use:
+- `./setup.sh` : resets Minikube and mount everything over.
+- `ctl/logs.sh` : logs current Kubernetes status.
+- `cd ctl && unit.sh` : run some tests. Requires python3 and lftp.
+
+#### Notes on dependencies:
+- Minikube version < 10 does not support virtualization inside virtualization (at least on my Oracles Virtual Machine). Please install the latest version and conntrack:
+
+	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+	chmod +x minikube
+	sudo mkdir -p /usr/local/bin
+	sudo install minikube /usr/local/bin
+	sudo apt install conntrack # for driver=none
+
+- Check users and groups:
+
+	sudo groupadd docker
+	sudo usermod -aG docker user42
+	newgrp docker
+
+- Kill any running server:
+
+	sudo pkill nginx
 
 ---
 
@@ -35,8 +55,10 @@ Use `ctl/{cmd}` where `{cmd}` is:
 
 - Use `ssh user42@$(minikube ip)`; password: "user42".
 - To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
-- Three volumes are persistent and shared, the sql db, influx and /home (as it can be accessible through ssh and sftpd on the same data).
+- Three volumes are persistent and shared, the sql db, influx and /home (/home is accessible through ssh and ftp).
 - mysql-client is installed on nginx for ease when interacting with `ssh -h mysql -uuser42 -puser42`.
+- URL /grafana redirects to port 3000 (unrequested feature).
+- Use `source <(kubectl completion zsh)` for extra juice.
 
 ---
 
