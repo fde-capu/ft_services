@@ -52,8 +52,8 @@ Let's get it on **clustering**!
 	sudo mkdir -p /usr/local/bin
 	sudo install minikube /usr/local/bin
 	sudo apt install conntrack # for driver=none
-
 ```
+
 - Check users and groups:
 
 ```
