@@ -15,16 +15,16 @@ echo "\n\nminikube start\n===========\n"
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
 ssh-keygen -R $mkip
-kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+#kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
 echo "\n\nminikube ip check\n===========\n"
-sed "s/{MINIKUBE_IP}/${mkip}-${mkip}/g" \
+sed "s/{MINIKUBE_IP}/${mkip}-${mkip}0/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
 echo "Check this out:\n minikube ip: \
 	\t\t`minikube ip` \n 01_metallb.yaml: \
 	`cat srcs/01_metallb.yaml | tail -1` \n"
-sleep 3
+sleep 5
 
 echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
@@ -62,3 +62,6 @@ ctl/logs.sh
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
+
+# every external ip unique
+
