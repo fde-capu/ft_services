@@ -26,7 +26,7 @@ data:
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header X-Real-IP $remote_addr;
             rewrite ^/phpmyadmin/(.*) /$1 break;
-            proxy_pass https://$host:5000;
+            proxy_pass https://phpmyadmin:5000;
         }
         error_page 497 https://$host$request_uri;
     }
