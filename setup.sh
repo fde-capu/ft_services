@@ -8,7 +8,7 @@ SLEEP_SECONDS=30
 echo "\n\npre-config\n=========\n"
 set -e
 sudo minikube delete
-sudo rm -rf ~/.minikube
+#sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
