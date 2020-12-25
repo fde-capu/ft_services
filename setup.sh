@@ -62,3 +62,6 @@ ctl/logs.sh
 echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
+
+#Tasks:
+# all watching processes
