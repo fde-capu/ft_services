@@ -164,6 +164,7 @@ ans = [ \
 
 	[MESSAGE,		'Testing ssh into Nginx'], \
 	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
+	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' cat /etc/issue | head -1', [['password', pasw]], 'Alpine', 3], \
 
 	[MESSAGE,		'Testing ftps'], \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
@@ -236,16 +237,9 @@ ans = [ \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb", database must be called "telegraf"* and curl must be installed on nginx container.\n*) I speak Portuguese and do not care for the Oxford comma.'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}'], \
+	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
 	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['password', pasw]], ':', 0], \
 ]
-# test if there is a 'grafana' database
-
-#[MESSAGE,		'Testing ssh into Nginx'], \
-#		[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
-# ^^ cat /etc/issue
-
-# test if grafana is reading from telegraf db
 
 title('\nUnit test : by fde-capu\n')
 

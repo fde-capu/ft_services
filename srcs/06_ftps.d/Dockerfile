@@ -7,6 +7,7 @@ RUN			mkdir -p /etc/ssl/private && \
 COPY		server* /
 RUN			adduser -D user42 && \
 			echo 'user42:user42' | chpasswd
+COPY		telegraf* /
 EXPOSE		21
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

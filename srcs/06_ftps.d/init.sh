@@ -13,4 +13,5 @@ chown user42 /var/lib/ftp
 mkdir -p /mnt/sql
 chown user42 /mnt/sql
 vsftpd /etc/vsftpd/vsftpd.conf
+/bin/sh /telegraf.sh
 tail -f /dev/null

@@ -17,4 +17,5 @@ sleep 5
 #mysql -e "CREATE DATABASE wordpress"
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
 mysql -e "FLUSH PRIVILEGES"
+/bin/sh /telegraf.sh
 tail -f /dev/null

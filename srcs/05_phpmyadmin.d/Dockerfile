@@ -16,6 +16,7 @@ RUN			apk add phpmyadmin
 COPY		server* /
 COPY		pma_nginx.conf /
 COPY		config.inc.php /
+COPY		telegraf* /
 EXPOSE		5000
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
