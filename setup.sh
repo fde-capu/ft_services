@@ -70,6 +70,19 @@ echo \
 	'\n42 São Paulo :: ft_services :: fde-capu\n'
 sleep 1
 
+# VM Specs:
+# -rw-r--r-- 1 fde-capu fde-capu 4807311872 Dec 17 08:38 english-version.ova
+# fde-capu@N7FAA52318:~/vm$ sha256sum english-version.ova 
+# ffc1f8d74b234891cc756a28a123df207bcbbde328fac1ba22f82f60d3805986  english-version.ova
+# Ubuntu 64b
+# Nested VT-x/AMD-V
+# Default Paravirtualization
+# Enabled Nested Paging
+# Oracle Extension Pack 6.1.14
+#
+#
+#
+
 # dependencies:
 #curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 #chmod +x minikube
