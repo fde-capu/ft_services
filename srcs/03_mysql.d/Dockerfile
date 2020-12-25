@@ -3,4 +3,5 @@ RUN			apk update
 RUN			apk add mysql mysql-client
 COPY		telegraf* /
 COPY		init.sh /
-ENTRYPOINT	["/init.sh"]
+RUN			/init.sh
+ENTRYPOINT	["mysqld", "--user=root"]

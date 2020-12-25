@@ -15,19 +15,12 @@ spec:
       labels:
         app: wordpress
     spec:
-      volumes:
-      - name: sql-vol
-        persistentVolumeClaim:
-          claimName: sql-pv-claim
       containers:
       - name: wordpress
         image: wordpress:service
         ports:
         - name: https
           containerPort: 5050
-        volumeMounts:
-        - name: sql-vol
-          mountPath: /mnt/sql
 ---          
 apiVersion: v1
 kind: Service
