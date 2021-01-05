@@ -41,10 +41,8 @@ def piped_output(cmd):
 	re = ps.communicate()[0]
 	return re.decode('utf-8')
 
-ip_mk = str(sys.argv[1])
-cmd = 'kubectl get svc | grep nginx | awk \'{printf "%s", $4}\''
-ip_nginx = piped_output(cmd)
-alert(ip_nginx)
+ip = str(sys.argv[1])
+#ip = piped_output('kubectl get svc | grep nginx | awk \'{printf "%s", $4}\'')
 
 user = str(sys.argv[2])
 pasw = str(sys.argv[3])

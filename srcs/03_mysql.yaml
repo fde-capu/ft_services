@@ -4,16 +4,16 @@ metadata:
   name: mysql
   labels:
     app: mysql
-spec:
+  spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+    app: mysql
   template:
-    metadata:
-      name: mysql
-      labels:
-        app: mysql
+  metadata:
+    name: mysql
+    labels:
+      app: mysql
     spec:
       volumes:
       - name: sql-vol
