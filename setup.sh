@@ -87,6 +87,7 @@ sleep 1
 # sudo apt install lftp # for unit test:
 # sudo pkill nginx
 # sudo apt install conntrack # for driver=none
+# source <(kubectl completion szh)
 
 # Tasks:
 # every external ip unique
