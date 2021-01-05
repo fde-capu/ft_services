@@ -3,9 +3,12 @@ RUN			apk update
 RUN			apk add mysql mysql-client
 COPY		telegraf* /
 COPY		init.sh /
-RUN			adduser -D user42 && \
-			mysql_install_db --basedir=/usr --datadir=/var/lib/mysql && \
-			mkdir -p /var/run/mysqld
 RUN			/init.sh
-ENTRYPOINT	["mysqld", "--user=mysql"]
+ENTRYPOINT	["mysqld", "--user=root"]
+#RUN			/bin/sh /telegraf.sh
 #ENTRYPOINT	["tail", "-f", "/dev/null"]
+#RUN			mkdir -p /auth_pam_tool_dir/auth_pam_tool
+#RUN			mkdir -p run/mysqld
+#RUN			mysql_install_db --user=root --basedir=/usr --datadir=/var/lib/mysql
+#ENTRYPOINT	["/usr/bin/mysqld_safe", "--datadir='/var/lib/mysql'"]
+#RUN			/init.sh

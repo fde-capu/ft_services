@@ -3,7 +3,6 @@ CPUS=3
 MEM='8g'
 SSD='4g'
 DRIVER=none
-#DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"

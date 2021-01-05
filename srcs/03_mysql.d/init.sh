@@ -4,12 +4,13 @@ set -e
 #adduser -D user42
 #echo 'user42:user42' | chpasswd
 #chown user42:root /var/lib/mysql
-#mkdir -p /auth_pam_tool_dir/auth_pam_tool
+mkdir -p /auth_pam_tool_dir/auth_pam_tool
+mkdir -p run/mysqld
 #chown user42:root /auth_pam_tool_dir/auth_pam_tool
 #chown user42:root /var/lib/mysql
-#mysql_install_db --user=user42 --basedir=/usr --datadir=/var/lib/mysql
-#mkdir -p /var/run/mysqld
-#chown user42:root /var/run/mysqld
+mysql_install_db --user=root --basedir=/usr --datadir=/var/lib/mysql
+sleep 10
+#chown mysql:mysql /var/run/mysqld
 #cat >> /etc/my.cnf.d/ft_services.cnf<<EOF
 #[mysqld]
 #skip-networking = 0
@@ -22,4 +23,4 @@ set -e
 ##mysql -e "CREATE DATABASE wordpress"
 #mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
 #mysql -e "FLUSH PRIVILEGES"
-/bin/sh /telegraf.sh
+#/bin/sh /telegraf.sh
