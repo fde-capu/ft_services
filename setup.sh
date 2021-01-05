@@ -11,7 +11,7 @@ sudo minikube delete
 #docker rm -f `docker ps -aq`
 #docker rmi -f `docker images -aq`
 set -e
-sudo rm -rf ~/.minikube
+#sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
@@ -30,9 +30,9 @@ echo "Check this out:\n minikube ip: \
 	`cat srcs/01_metallb.yaml | tail -1` \n"
 sleep 5
 
-echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
+#echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
-echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
+#echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
 sudo -E minikube addons enable metallb

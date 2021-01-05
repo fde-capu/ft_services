@@ -58,3 +58,5 @@ dual_log_enable=YES
 xferlog_enable=NO
 xferlog_file=/var/log/xfer_vsftpd.log
 xferlog_std_format=YES
+
+pasv_address=nginx
