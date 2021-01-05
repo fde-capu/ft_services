@@ -36,13 +36,22 @@ def		title(string):
 	print (bcolors.BOLD + '' + str(string) + ' ' + bcolors.ENDC, flush = True)
 	return
 
-ip = str(sys.argv[1])
+def piped_output(cmd):
+	ps = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+	re = ps.communicate()[0]
+	return re.decode('utf-8')
+
+ip_mk = str(sys.argv[1])
+cmd = 'kubectl get svc | grep nginx | awk \'{printf "%s", $4}\''
+ip_nginx = piped_output(cmd)
+alert(ip_nginx)
+
 user = str(sys.argv[2])
 pasw = str(sys.argv[3])
 home = str(os.environ['HOME'])
 
 if ip == '🤷' or user == '' or pasw == '':
-	alert('Is the cluster running? ip:`' + ip + '`, user:`' + user + '`, pasw:`' + pasw + '`.')
+	alert('Syntax error?\nIs the cluster running?\nip:`' + ip + '`, user:`' + user + '`, pasw:`' + pasw + '`.')
 	exit()
 
 STRING_TRUNCATE = 35
@@ -51,7 +60,6 @@ ANSWER = 2
 FAIL = 3
 INTERACTIVE = 4
 TEST = 5
-FOO = False
 
 ans = [ \
 	[MESSAGE,	'Testing nginx'], \
