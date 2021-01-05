@@ -42,7 +42,7 @@ def piped_output(cmd):
 	return re.decode('utf-8')
 
 ip = str(sys.argv[1])
-#ip = piped_output('kubectl get svc | grep nginx | awk \'{printf "%s", $4}\'')
+ip = piped_output('kubectl get svc | grep nginx | awk \'{printf "%s", $4}\'')
 
 user = str(sys.argv[2])
 pasw = str(sys.argv[3])

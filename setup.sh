@@ -3,6 +3,7 @@ CPUS=3
 MEM='8g'
 SSD='4g'
 DRIVER=none
+#DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
@@ -10,7 +11,7 @@ sudo minikube delete
 #docker rm -f `docker ps -aq`
 #docker rmi -f `docker images -aq`
 set -e
-#sudo rm -rf ~/.minikube
+sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
@@ -19,8 +20,11 @@ mkip=`minikube ip`
 ssh-keygen -R $mkip
 #kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
+hostmin=`ipcalc $mkip | grep HostMin | awk '{print $2}'`
+hostmax=`ipcalc $mkip | grep HostMax | awk '{print $2}'`
 echo "\n\nminikube ip check\n===========\n"
-sed "s/{MINIKUBE_IP}/${mkip}-${mkip}0/g" \
+#sed "s/{MINIKUBE_IP}/${hostmin}-${hostmax}/g" \
+sed "s/{MINIKUBE_IP}/$mkip\/26/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
 echo "Check this out:\n minikube ip: \
@@ -33,7 +37,7 @@ cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
 echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
-sudo minikube addons enable metallb
+sudo -E minikube addons enable metallb
 
 echo "\n\nBuild: 02_nginx\n===========\n"
 docker build -t nginx:service srcs/02_nginx.d
@@ -89,6 +93,7 @@ sleep 1
 # sudo apt install lftp # for unit test:
 # sudo pkill nginx
 # sudo apt install conntrack # for driver=none
+# sudo apt install ipcalc
 # source <(kubectl completion szh)
 
 # Tasks:
