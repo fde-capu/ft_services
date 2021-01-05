@@ -18,13 +18,11 @@ echo "\n\nminikube start\n===========\n"
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
 ssh-keygen -R $mkip
-#kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+#sudo kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
-hostmin=`ipcalc $mkip | grep HostMin | awk '{print $2}'`
-hostmax=`ipcalc $mkip | grep HostMax | awk '{print $2}'`
 echo "\n\nminikube ip check\n===========\n"
 #sed "s/{MINIKUBE_IP}/${hostmin}-${hostmax}/g" \
-sed "s/{MINIKUBE_IP}/$mkip\/26/g" \
+sed "s/{MINIKUBE_IP}/$mkip\/28/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
 echo "Check this out:\n minikube ip: \
