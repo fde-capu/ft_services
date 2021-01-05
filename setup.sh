@@ -6,8 +6,10 @@ DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
-set -e
 sudo minikube delete
+#docker rm -f `docker ps -aq`
+#docker rmi -f `docker images -aq`
+set -e
 #sudo rm -rf ~/.minikube
 export CHANGE_MINIKUBE_NONE_USER=true
 

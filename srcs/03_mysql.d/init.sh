@@ -1,15 +1,15 @@
 #!/bin/sh
 touch /MYSQL_CONTAINER
 set -e
-adduser -D user42
+#adduser -D user42
 #echo 'user42:user42' | chpasswd
-chown user42:root /var/lib/mysql
-mkdir -p /auth_pam_tool_dir/auth_pam_tool
-chown user42:root /auth_pam_tool_dir/auth_pam_tool
 #chown user42:root /var/lib/mysql
-mysql_install_db --user=user42 --basedir=/usr --datadir=/var/lib/mysql
-mkdir -p /var/run/mysqld
-chown user42:root /var/run/mysqld
+#mkdir -p /auth_pam_tool_dir/auth_pam_tool
+#chown user42:root /auth_pam_tool_dir/auth_pam_tool
+#chown user42:root /var/lib/mysql
+#mysql_install_db --user=user42 --basedir=/usr --datadir=/var/lib/mysql
+#mkdir -p /var/run/mysqld
+#chown user42:root /var/run/mysqld
 #cat >> /etc/my.cnf.d/ft_services.cnf<<EOF
 #[mysqld]
 #skip-networking = 0
