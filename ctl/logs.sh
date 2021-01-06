@@ -14,7 +14,7 @@ kubectl get service grafana
 kubectl get service influxdb
 kubectl get svc
 
-ip="$(minikube ip)"
+ip="$(kubectl get svc | grep nginx | awk '{printf "%s", $4}')"
 
 echo "For interactive terminal, click:"
 echo ""

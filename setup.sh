@@ -9,8 +9,8 @@ echo "\n\npre-config\n=========\n"
 sudo minikube delete
 #docker rm -f `docker ps -aq`
 #docker rmi -f `docker images -aq`
-set -e
 #sudo rm -rf ~/.minikube
+set -e
 export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube start\n===========\n"
@@ -96,3 +96,4 @@ sleep 1
 # Tasks:
 # every external ip unique
 # all watching processes
+# wordpress accounts

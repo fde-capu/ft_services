@@ -114,7 +114,7 @@ ans = [ \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':443', '200'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':443', '200'], \
 
-	[MESSAGE,	'Testing nginx:5000'], \
+	[MESSAGE,	'Testing nginx:5000 (phpmyadmin)'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
 	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':5000', '400'], \
 	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':5000', '400'], \
