@@ -10,6 +10,7 @@ sudo minikube delete
 #docker rm -f `docker ps -aq`
 #docker rmi -f `docker images -aq`
 #sudo rm -rf ~/.minikube
+sudo rm -rf /ft_services-fde-capu
 set -e
 export CHANGE_MINIKUBE_NONE_USER=true
 
@@ -21,7 +22,7 @@ ssh-keygen -R $mkip
 
 echo "\n\nminikube ip check\n===========\n"
 #sed "s/{MINIKUBE_IP}/${hostmin}-${hostmax}/g" \
-sed "s/{MINIKUBE_IP}/$mkip\/28/g" \
+sed "s/{MINIKUBE_IP}/10.2.0.1-10.2.0.14/g" \
 	srcs/01_metallb-template.yaml \
 	> srcs/01_metallb.yaml
 echo "Check this out:\n minikube ip: \
@@ -97,3 +98,4 @@ sleep 1
 # every external ip unique
 # all watching processes
 # wordpress accounts
+# review all telegrafs
