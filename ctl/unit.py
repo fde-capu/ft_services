@@ -50,6 +50,7 @@ wp = piped_output('kubectl get svc | grep wordpress | awk \'{printf "%s", $4}\''
 user = str(sys.argv[2])
 pasw = str(sys.argv[3])
 home = str(os.environ['HOME'])
+cwd = str(os.getcwd()) + '/ctl'
 
 if ip == '🤷' or user == '' or pasw == '':
 	alert('Syntax error?\nIs the cluster running?\nnginx:`' + nginx + '`, user:`' + user + '`, pasw:`' + pasw + '`.')
@@ -159,11 +160,11 @@ ans = [ \
 
 	[MESSAGE,		'Testing ftps'], \
 	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ftps, 0], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "put ftps-test_file.txt && bye"', [['put', '']], 'Fatal', 2], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt && bye"', [], 'unexpected', -4], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt -o / && bye"', [], '553', -6], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "get ftps-test_file.txt -o test-ok.txt && bye"', [], 'trusted', -2], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o test-ok.txt && bye"', [], 'transferred', -1], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "put ' + cwd + '/ftps-test_file.txt && bye"', [['put', '']], 'Fatal', 2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ' + cwd + '/ftps-test_file.txt && bye"', [], 'transferred', -1], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ' + cwd + '/ftps-test_file.txt -o / && bye"', [], '553', -6], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "get ftps-test_file.txt -o ' + cwd + '/test-ok.txt && bye"', [], 'trusted', -2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o ' + cwd + '/test-ok.txt && bye"', [], 'transferred', -1], \
 
 	[MESSAGE,	'Testing phpmyadmin'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
@@ -260,10 +261,10 @@ except:	message('Somthin bout mkstemp?')
 else:	print('Done.')
 
 title('Preparing ambient.')
-preparation = ['rm -f ftps-test_file.txt', 'rm -f test-ok.txt']
+preparation = ['rm -f ' + cwd + '/ftps-test_file.txt', 'rm -f test-ok.txt']
 for p in preparation:
 	child = pexpect.spawn(p)
-f = open("ftps-test_file.txt", "a")
+f = open(cwd + "/ftps-test_file.txt", "a")
 f.write("ftp-test_file.txt content inside!")
 f.close()
 print('Done.')
