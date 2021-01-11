@@ -16,7 +16,11 @@ data:
         ssl_certificate_key /etc/nginx/ssl/server.key;
         root /www;
         location /wordpress {
-            return 307 https://wordpress:5050;
+            proxy_set_header HOST $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Real-IP $remote_addr;
+            rewrite ^/wordpress/(.*) /$1 break;
+            proxy_pass https://wordpress:5050;
         }
         location /grafana {
             return 307 https://$host:3000;

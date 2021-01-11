@@ -10,7 +10,7 @@ sudo minikube delete
 #docker rm -f `docker ps -aq`
 #docker rmi -f `docker images -aq`
 #sudo rm -rf ~/.minikube
-sudo rm -rf /ft_services-fde-capu
+#sudo rm -rf /ft_services-fde-capu
 set -e
 export CHANGE_MINIKUBE_NONE_USER=true
 
