@@ -59,4 +59,4 @@ xferlog_enable=NO
 xferlog_file=/var/log/xfer_vsftpd.log
 xferlog_std_format=YES
 
-pasv_address=nginx
+pasv_address=127.0.0.1

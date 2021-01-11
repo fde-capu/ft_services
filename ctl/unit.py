@@ -42,14 +42,17 @@ def piped_output(cmd):
 	return re.decode('utf-8')
 
 ip = str(sys.argv[1])
-ip = piped_output('kubectl get svc | grep nginx | awk \'{printf "%s", $4}\'')
+nginx = piped_output('kubectl get svc | grep nginx | awk \'{printf "%s", $4}\'')
+ftps = piped_output('kubectl get svc | grep ftps | awk \'{printf "%s", $4}\'')
+pma = piped_output('kubectl get svc | grep phpmyadmin | awk \'{printf "%s", $4}\'')
+wp = piped_output('kubectl get svc | grep wordpress | awk \'{printf "%s", $4}\'')
 
 user = str(sys.argv[2])
 pasw = str(sys.argv[3])
 home = str(os.environ['HOME'])
 
 if ip == '🤷' or user == '' or pasw == '':
-	alert('Syntax error?\nIs the cluster running?\nip:`' + ip + '`, user:`' + user + '`, pasw:`' + pasw + '`.')
+	alert('Syntax error?\nIs the cluster running?\nnginx:`' + nginx + '`, user:`' + user + '`, pasw:`' + pasw + '`.')
 	exit()
 
 STRING_TRUNCATE = 35
@@ -62,195 +65,195 @@ TEST = 5
 ans = [ \
 	[MESSAGE,	'Testing nginx'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip, '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip, '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip, '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx, '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx, '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx, '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip, '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip, '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip, '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx, '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx, '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx, '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip, '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip, '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip, '200'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx, '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx, '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx, '200'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip, '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip, '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip, '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx, '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx, '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx, '200'], \
 
 	[MESSAGE,	'Testing nginx:80'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':80', '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':80', '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':80', '35'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + ':80', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + ':80', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + ':80', '35'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':80', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':80', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':80', '35'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + ':80', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + ':80', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + ':80', '35'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':80', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':80', '301'], \
-	[FAIL,		'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':80', '35'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + ':80', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + ':80', '301'], \
+	[FAIL,		'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + ':80', '35'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':80', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':80', '200'], \
-	[FAIL,		'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':80', '35'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + ':80', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + ':80', '200'], \
+	[FAIL,		'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + ':80', '35'], \
 
 	[MESSAGE,	'Testing nginx:443'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':443', '302'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':443', '302'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':443', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + ':443', '302'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + ':443', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':443', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':443', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':443', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + ':443', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + ':443', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + ':443', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':443', '302'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':443', '302'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':443', '200'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + ':443', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + ':443', '200'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':443', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':443', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':443', '200'], \
-
-	[MESSAGE,	'Testing nginx:5000 (phpmyadmin)'], \
-	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':5000', '400'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':5000', '60'], \
-	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':5000', '400'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':5000', '60'], \
-	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':5000', '200'], \
-	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':5000', '400'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':5000', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + ':443', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + ':443', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + ':443', '200'], \
 
 	[MESSAGE,	'Testing nginx/phpmyadmin'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/phpmyadmin', '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/phpmyadmin', '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/phpmyadmin', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + '/phpmyadmin', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + '/phpmyadmin', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/phpmyadmin', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/phpmyadmin', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/phpmyadmin', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + '/phpmyadmin', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + '/phpmyadmin', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + '/phpmyadmin', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/phpmyadmin', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/phpmyadmin', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + '/phpmyadmin', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + '/phpmyadmin', '301'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/phpmyadmin', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/phpmyadmin', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + '/phpmyadmin', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + '/phpmyadmin', '200'], \
 
 	[MESSAGE,	'Testing nginx/phpmyadmin/'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/phpmyadmin/', '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/phpmyadmin/', '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/phpmyadmin/', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + '/phpmyadmin/', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + '/phpmyadmin/', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/phpmyadmin/', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/phpmyadmin/', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/phpmyadmin/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + '/phpmyadmin/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + '/phpmyadmin/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + '/phpmyadmin/', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/phpmyadmin/', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/phpmyadmin/', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + '/phpmyadmin/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + '/phpmyadmin/', '200'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/phpmyadmin/', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/phpmyadmin/', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + '/phpmyadmin/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + '/phpmyadmin/', '200'], \
 
 	[MESSAGE,		'Testing ssh into Nginx'], \
-	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
-	[INTERACTIVE,	'ssh ' + user + '@' + ip + ' cat /etc/issue | head -1', [['password', pasw]], 'Alpine', 3], \
+	[INTERACTIVE,	'ssh ' + user + '@' + nginx + ' uname', [['(yes/no)?', 'yes'], ['password', pasw]], 'Linux', 1], \
+	[INTERACTIVE,	'ssh ' + user + '@' + nginx + ' cat /etc/issue | head -1', [['password', pasw]], 'Alpine', 3], \
 
 	[MESSAGE,		'Testing ftps'], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ip, 0], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "put ftps-test_file.txt && bye"', [['put', '']], 'Fatal', 2], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt && bye"', [], 'transferred', -1], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt -o / && bye"', [], '553', -6], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "get ftps-test_file.txt -o test-ok.txt && bye"', [], 'trusted', -2], \
-	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ip + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o test-ok.txt && bye"', [], 'transferred', -1], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "pwd -p && bye"', [], 'ftp://' + user + ':' + pasw + '@' + ftps, 0], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "put ftps-test_file.txt && bye"', [['put', '']], 'Fatal', 2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt && bye"', [], 'unexpected', -4], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && put ftps-test_file.txt -o / && bye"', [], '553', -6], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "get ftps-test_file.txt -o test-ok.txt && bye"', [], 'trusted', -2], \
+	[INTERACTIVE,	'lftp ' + user + ':' + pasw + '@' + ftps + ' -e "set ssl:verify-certificate no && get ftps-test_file.txt -o test-ok.txt && bye"', [], 'transferred', -1], \
 
-	[MESSAGE,	'Testing nginx:5050'], \
+	[MESSAGE,	'Testing phpmyadmin'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + ':5050', '400'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + ':5050', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + pma + ':5000', '400'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + pma + ':5000', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + ':5050', '400'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + ':5050', '60'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + pma + ':5000', '400'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + pma + ':5000', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + ':5050', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + pma + ':5000', '200'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + ':5050', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + pma + ':5000', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + pma + ':5000', '200'], \
+
+	[MESSAGE,	'Testing wordpress'], \
+	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + wp + ':5050', '400'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + wp + ':5050', '60'], \
+	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" ' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -Lsw "%{http_code}" http://' + wp + ':5050', '400'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + wp + ':5050', '60'], \
+	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + wp + ':5050', '302'], \
+	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + wp + ':5050', '400'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + wp + ':5050', '200'], \
 
 	[MESSAGE,	'Testing nginx/wordpress'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/wordpress', '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/wordpress', '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/wordpress', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + '/wordpress', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + '/wordpress', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/wordpress', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/wordpress', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/wordpress', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + '/wordpress', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + '/wordpress', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + '/wordpress', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/wordpress', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/wordpress', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/wordpress', '307'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + '/wordpress', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + '/wordpress', '307'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/wordpress', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/wordpress', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/wordpress', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + '/wordpress', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + '/wordpress', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + '/wordpress', '200'], \
 
 	[MESSAGE,	'Testing nginx/wordpress/'], \
 	[MESSAGE,	'...do not redirect, do not ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + ip + '/wordpress/', '301'], \
-	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + ip + '/wordpress/', '301'], \
-	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + ip + '/wordpress/', '60'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" ' + nginx + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -sw "%{http_code}" http://' + nginx + '/wordpress/', '301'], \
+	[FAIL,		'curl -o /dev/null -sw "%{http_code}" https://' + nginx + '/wordpress/', '60'], \
 	[MESSAGE,	'...redirect, do not ignore self-signed certificate:'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + ip + '/wordpress/', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + ip + '/wordpress/', '60'], \
-	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + ip + '/wordpress/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" ' + nginx + '/wordpress/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" http://' + nginx + '/wordpress/', '60'], \
+	[FAIL,		'curl -o /dev/null -Lsw "%{http_code}" https://' + nginx + '/wordpress/', '60'], \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + ip + '/wordpress/', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + ip + '/wordpress/', '301'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + ip + '/wordpress/', '307'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + nginx + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + nginx + '/wordpress/', '301'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + nginx + '/wordpress/', '307'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + ip + '/wordpress/', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + ip + '/wordpress/', '200'], \
-	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + ip + '/wordpress/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + nginx + '/wordpress/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + nginx + '/wordpress/', '200'], \
+	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" https://' + nginx + '/wordpress/', '200'], \
 
 	[MESSAGE,	'Checking if Wordpress has a preset server is impossible afaik.'], \
 	[MESSAGE,	'Therefore, mysql must have been preconfigured with initial wordpress database.'], \
 	[MESSAGE,	'If it was mandatory to ssh->nginx->mysql->mysqlDB, it could be tested.'], \
 	[MESSAGE,	'Since this is what I have done, here are the unit tests (mysql container is named "mysql"):'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpresx;\'"', [['password', pasw]], 'ERROR', 1], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['password', pasw]], ':', 0], \
+	[INTERACTIVE, 'ssh ' + user + '@' + nginx + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpresx;\'"', [['password', pasw]], 'ERROR', 1], \
+	[INTERACTIVE, 'ssh ' + user + '@' + nginx + ' mysql -h "mysql -u' + user + ' -p' + pasw + ' -e \'use wordpress;\'"', [['password', pasw]], ':', 0], \
 	[MESSAGE,	'Still, user should not see "localhost" as the default wp server in case the initial configuration is left open.'], \
 
 	[MESSAGE,	'Verify influxdb database. Service must be called "influxdb", database must be called "telegraf"* and curl must be installed on nginx container.\n*) I speak Portuguese and do not care for the Oxford comma.'], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
-	[INTERACTIVE, 'ssh ' + user + '@' + ip + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['password', pasw]], ':', 0], \
+	[INTERACTIVE, 'ssh ' + user + '@' + nginx + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegraf', [['password', pasw]], '{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["telegraf"],["_internal"]]}]}]}', 1], \
+	[INTERACTIVE, 'ssh ' + user + '@' + nginx + ' curl -sG \'influxdb:8086/query --data-urlencode "q=show databases;"\' | grep telegrax', [['password', pasw]], ':', 0], \
 ]
 
 title('\nUnit test : by fde-capu\n')
 
 title('Removing existing trusted certificate from ' + home + '/.ssh/known_hosts:')
-remove_ssh = 'ssh-keygen -R ' + ip + ''
+remove_ssh = 'ssh-keygen -R ' + nginx + ''
 print('`' + remove_ssh + '`')
 try:	subprocess.check_output(remove_ssh.split())
 except:	message('Somthin bout mkstemp?')

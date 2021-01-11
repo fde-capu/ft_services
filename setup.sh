@@ -32,7 +32,7 @@ sleep 5
 
 #echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
-#echo "pasv_address=$mkip" >> srcs/06_ftps.d/vsftpd.conf
+#echo "pasv_address=$ftpsip" >> srcs/06_ftps.d/vsftpd.conf
 
 echo "\n\nminikube addons enable metallb\n===========\n"
 sudo -E minikube addons enable metallb
