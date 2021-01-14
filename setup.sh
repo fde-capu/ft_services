@@ -99,3 +99,10 @@ sleep 1
 # all watching processes
 # wordpress accounts
 # review all telegrafs
+
+
+	#ssl_certificate /etc/nginx/ssl/server.crt;
+	#ssl_certificate_key /etc/nginx/ssl/server.key;
+
+#ln /server.key /etc/nginx/ssl/server.key
+#ln /server.crt /etc/nginx/ssl/server.crt
