@@ -6,24 +6,34 @@ data:
   nginx.conf: |
     server {
         listen 80;
-        listen [::]:80;
+        listen [::]: 80;
         return 301 https://$host$request_uri;
     }
     server {
-        listen 443 ssl;
-        listen [::]:443 ssl;
+        listen 5050 ssl;
+        listem [::]: 5050 ssl;
         ssl_certificate /etc/nginx/ssl/server.crt;
         ssl_certificate_key /etc/nginx/ssl/server.key;
-        root /www;
-        location /wordpress {
+        location /wordpress/ {
             proxy_set_header HOST $host;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header X-Real-IP $remote_addr;
             rewrite ^/wordpress/(.*) /$1 break;
             proxy_pass https://wordpress:5050;
         }
+        error_page 497 https://$host$request_uri;
+    }
+    server {
+        listen 443 ssl;
+        listen [::]: 443 ssl;
+        ssl_certificate /etc/nginx/ssl/server.crt;
+        ssl_certificate_key /etc/nginx/ssl/server.key;
+        root /www;
         location /grafana {
             return 307 https://$host:3000;
+        }
+        location /wordpress {
+            return 307 https://$host:5050/wordpress/;
         }
         location /phpmyadmin/ {
             proxy_set_header HOST $host;
