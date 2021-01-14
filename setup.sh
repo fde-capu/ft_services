@@ -37,8 +37,6 @@ cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
 echo "\n\nminikube addons enable metallb\n===========\n"
 sudo -E minikube addons enable metallb
 
-echo "\n\nBuild: 02_nginx\n===========\n"
-docker build -t nginx:service srcs/02_nginx.d
 echo "\n\nBuild: 03_mysql\n===========\n"
 docker build -t mysql:service srcs/03_mysql.d
 echo "\n\nBuild: 04_wordpress\n===========\n"
@@ -58,16 +56,26 @@ echo "ok"
 
 #echo "\n\nkubectl apply -k srcs/.\n===========\n"
 #kubectl apply -v2 -k srcs/.
-echo "\n\nkubectl applys\n===========\n"
+echo "\n\nkubectl applies\n===========\n"
 set -x
+kubectl apply -f srcs/04_wordpress.yaml
 kubectl apply -f srcs/01_metallb.yaml
 kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/03_mysql.yaml
-kubectl apply -f srcs/04_wordpress.yaml
 kubectl apply -f srcs/05_phpmyadmin.yaml
 kubectl apply -f srcs/06_ftps.yaml
 kubectl apply -f srcs/08_influxdb.yaml
 kubectl apply -f srcs/07_grafana.yaml
+
+echo "\n\nBuild and apply: 02_nginx\n===========\n"
+wpexip="<pending>"
+while [ "$wpexip" = "<pending>" ]; do
+echo "Wordpress IP pending..."
+wpexip=$(kubectl get svc | grep wordpress | awk '{printf "%s", $4}')
+sleep 3
+done
+sed "s/{WORDPRESS_EXTERNAL_IP}/$wpexip/g" srcs/02_nginx.d/nginx.conf-template > srcs/02_nginx.d/nginx.conf
+docker build -t nginx:service srcs/02_nginx.d
 kubectl apply -f srcs/02_nginx.yaml
 
 echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
@@ -110,10 +118,3 @@ sleep 1
 # all watching processes
 # wordpress accounts
 # review all telegrafs
-
-
-	#ssl_certificate /etc/nginx/ssl/server.crt;
-	#ssl_certificate_key /etc/nginx/ssl/server.key;
-
-#ln /server.key /etc/nginx/ssl/server.key
-#ln /server.crt /etc/nginx/ssl/server.crt
