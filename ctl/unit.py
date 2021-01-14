@@ -196,7 +196,7 @@ ans = [ \
 	[MESSAGE,	'...do not redirect, ignore self-signed certificate:'], \
 	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" ' + wp + ':5050', '400'], \
 	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" http://' + wp + ':5050', '400'], \
-	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + wp + ':5050', '302'], \
+	[ANSWER,	'curl -o /dev/null -ksw "%{http_code}" https://' + wp + ':5050', '200'], \
 	[MESSAGE,	'...redirect, ignore self-signed certificate:'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" ' + wp + ':5050', '400'], \
 	[ANSWER,	'curl -o /dev/null -kLsw "%{http_code}" http://' + wp + ':5050', '400'], \
