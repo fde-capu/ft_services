@@ -18,12 +18,10 @@ data:
         location /grafana {
             return 307 https://$host:3000;
         }
-        location /wordpress/ {
-            proxy_set_header HOST $host;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header X-Real-IP $remote_addr;
-            rewrite ^/wordpress/(.*) /$1 break;
-            proxy_pass https://wordpress:5050;
+        location /wordpress {
+            search wordpress.default.svc.cluster.local;
+            set $wp wordpress.default.svc.cluster.local;
+            return 307 https://$wp:5050;
         }
         location /phpmyadmin/ {
             proxy_set_header HOST $host;
