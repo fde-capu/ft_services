@@ -56,8 +56,19 @@ echo "\nCleaning..."
 rm srcs/06_ftps.d/vsftpd.conf
 echo "ok"
 
-echo "\n\nkubectl apply -k srcs/.\n===========\n"
-kubectl apply -v2 -k srcs/.
+#echo "\n\nkubectl apply -k srcs/.\n===========\n"
+#kubectl apply -v2 -k srcs/.
+echo "\n\nkubectl applys\n===========\n"
+set -x
+kubectl apply -f srcs/01_metallb.yaml
+kubectl apply -f srcs/01.5_vols.yaml
+kubectl apply -f srcs/03_mysql.yaml
+kubectl apply -f srcs/04_wordpress.yaml
+kubectl apply -f srcs/05_phpmyadmin.yaml
+kubectl apply -f srcs/06_ftps.yaml
+kubectl apply -f srcs/08_influxdb.yaml
+kubectl apply -f srcs/07_grafana.yaml
+kubectl apply -f srcs/02_nginx.yaml
 
 echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
 sleep $SLEEP_SECONDS

@@ -19,9 +19,7 @@ data:
             return 307 https://$host:3000;
         }
         location /wordpress {
-            search wordpress.default.svc.cluster.local;
-            set $wp wordpress.default.svc.cluster.local;
-            return 307 https://$wp:5050;
+            rewrite ^/(.*)$ https://wordpress:5050/$1 permanent;
         }
         location /phpmyadmin/ {
             proxy_set_header HOST $host;
