@@ -121,6 +121,12 @@ sleep 1
 
 # Tasks:
 # every external ip unique	OK
+
 # all watching processes
+#   mysql ok
+#	wordpress: 
+   # probe:
+# ps | grep -E "[^]]nginx|[^]]php-fpm" && echo "$? found" || echo "$? NOT found"
+
 # wordpress accounts		OK
 # review all telegrafs
