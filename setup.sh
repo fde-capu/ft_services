@@ -120,7 +120,7 @@ sleep 1
 # source <(kubectl completion szh)
 
 # Tasks:
-# every external ip unique
+# every external ip unique	OK
 # all watching processes
-# wordpress accounts
+# wordpress accounts		OK
 # review all telegrafs

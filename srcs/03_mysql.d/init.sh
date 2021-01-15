@@ -11,7 +11,7 @@ bind_address = 0.0.0.0
 EOF
 sed -i s/skip-networking*// /etc/my.cnf.d/mariadb-server.cnf
 
-adduser -D user42
+adduser -D -g root user42
 echo 'user42:user42' | chpasswd
 chown user42:root /var/lib/mysql
 chown user42:root /auth_pam_tool_dir/auth_pam_tool
@@ -27,9 +27,10 @@ done
 mysql -e "CREATE DATABASE wordpress"
 mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
-
-#exec mysqld --user=user42
-tail -f /dev/null
+pkill mysqld
+exec "$@"
+#mysqld --user=user42
+#exec mysqld --user=user42 && tail -f /dev/null
 
 #mysql -e "FLUSH PRIVILEGES"
 #sleep 5
