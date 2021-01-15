@@ -7,10 +7,10 @@ SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
 sudo minikube delete
-#docker rm -f `docker ps -aq`
-#docker rmi -f `docker images -aq`
-#sudo rm -rf ~/.minikube
-#sudo rm -rf /ft_services-fde-capu
+docker rm -f `docker ps -aq`
+docker rmi -f `docker images -aq`
+sudo rm -rf ~/.minikube
+sudo rm -rf /ft_services-fde-capu
 set -e
 export CHANGE_MINIKUBE_NONE_USER=true
 
@@ -50,18 +50,19 @@ docker build -t grafana:service srcs/07_grafana.d
 echo "\n\nBuild: 08_influxdb\n===========\n"
 docker build -t influxdb:service srcs/08_influxdb.d
 
-echo "\nCleaning..."
-rm srcs/06_ftps.d/vsftpd.conf
-echo "ok"
-
 #echo "\n\nkubectl apply -k srcs/.\n===========\n"
 #kubectl apply -v2 -k srcs/.
 echo "\n\nkubectl applies\n===========\n"
-set -x
-kubectl apply -f srcs/04_wordpress.yaml
-kubectl apply -f srcs/01_metallb.yaml
-kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/03_mysql.yaml
+wpexip="<pending>"
+while [ "$wpexip" = "<pending>" ]; do
+echo -n "."
+wpexip=$(kubectl get svc | grep mysql | awk '{printf "%s", $4}')
+sleep 2
+done
+kubectl apply -f srcs/01_metallb.yaml
+kubectl apply -f srcs/04_wordpress.yaml
+kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/05_phpmyadmin.yaml
 kubectl apply -f srcs/06_ftps.yaml
 kubectl apply -f srcs/08_influxdb.yaml
@@ -70,13 +71,18 @@ kubectl apply -f srcs/07_grafana.yaml
 echo "\n\nBuild and apply: 02_nginx\n===========\n"
 wpexip="<pending>"
 while [ "$wpexip" = "<pending>" ]; do
-echo "Wordpress IP pending..."
+echo -n "."
 wpexip=$(kubectl get svc | grep wordpress | awk '{printf "%s", $4}')
 sleep 3
 done
 sed "s/{WORDPRESS_EXTERNAL_IP}/$wpexip/g" srcs/02_nginx.d/nginx.conf-template > srcs/02_nginx.d/nginx.conf
 docker build -t nginx:service srcs/02_nginx.d
 kubectl apply -f srcs/02_nginx.yaml
+
+echo "\nCleaning..."
+rm srcs/06_ftps.d/vsftpd.conf
+rm srcs/02_nginx.d/nginx.conf
+echo "ok"
 
 echo "\n\nLogs:\n=========== (sleep $SLEEP_SECONDS)\n"
 sleep $SLEEP_SECONDS

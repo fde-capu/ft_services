@@ -3,6 +3,7 @@ RUN			apk update
 RUN			apk add mysql mysql-client
 COPY		telegraf* /
 COPY		init.sh /
+COPY		wordpress.sql /
 ENTRYPOINT	["/init.sh"]
 #RUN			/init.sh
 #ENTRYPOINT	["tail", "-f", "/dev/null"]

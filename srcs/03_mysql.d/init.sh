@@ -1,6 +1,6 @@
 #!/bin/sh
 touch /MYSQL_CONTAINER
-set -e
+set -x
 mkdir -p /auth_pam_tool_dir/auth_pam_tool
 mkdir -p run/mysqld
 cat >> /etc/my.cnf.d/ft_services.cnf<<EOF
@@ -19,14 +19,18 @@ chown user42:root /var/run/mysqld
 #chown user42:root ??
 
 mysql_install_db --user=user42 --basedir=/usr --datadir=/var/lib/mysql
-sleep 10
 mysqld --user=user42 &
-sleep 5
+while [ ! -S /var/run/mysqld/mysqld.sock ]; do
+	echo -n '.'
+	sleep 1
+done
+mysql -e "CREATE DATABASE wordpress"
+mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
+
 #exec mysqld --user=user42
 tail -f /dev/null
 
-#mysql -e "CREATE DATABASE wordpress"
 #mysql -e "FLUSH PRIVILEGES"
 #sleep 5
 #/bin/sh /telegraf.sh
