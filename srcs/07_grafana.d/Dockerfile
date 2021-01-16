@@ -8,6 +8,7 @@ COPY		ft_services.json /
 COPY		grafana.ini /
 COPY		server* /
 COPY		telegraf* /
+COPY		health_check.sh /
 EXPOSE		3000
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

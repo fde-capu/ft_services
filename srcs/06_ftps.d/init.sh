@@ -12,5 +12,5 @@ chown user42 /home/user42/test.txt
 chown user42 /var/lib/ftp
 mkdir -p /mnt/sql
 vsftpd /etc/vsftpd/vsftpd.conf
-/bin/sh /telegraf.sh
-tail -f /dev/null
+/bin/sh /telegraf.sh &
+exec /bin/sh /health_check.sh vsftpd

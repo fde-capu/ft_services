@@ -13,6 +13,7 @@ RUN			mkdir -p /run/nginx						&& \
 			mkdir -p /www							&& \
 			echo "Nginx on /www from nginx-container." > /www/index.html
 COPY		telegraf* /
+COPY		health_check.sh /
 EXPOSE		22 80 443
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

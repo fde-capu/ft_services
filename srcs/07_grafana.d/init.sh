@@ -13,5 +13,5 @@ sed -e 's/{HOSTNAME}/wordpress/' -e 's/{DASHUID}/fdecapuwordpress/' <ft_services
 sed -e 's/{HOSTNAME}/mysql/' -e 's/{DASHUID}/fdecapumysql/' <ft_services.json > /var/lib/grafana/dashboards/mysql.json
 sed -e 's/{HOSTNAME}/nginx/' -e 's/{DASHUID}/fdecapunginx/'  <ft_services.json > /var/lib/grafana/dashboards/nginx.json
 grafana-server --config /grafana.ini &
-/bin/sh /telegraf.sh
-tail -f /dev/null
+/bin/sh /telegraf.sh &
+exec /bin/sh /health_check.sh grafana

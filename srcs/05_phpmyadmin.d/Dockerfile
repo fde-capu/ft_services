@@ -17,6 +17,7 @@ COPY		server* /
 COPY		pma_nginx.conf /
 COPY		config.inc.php /
 COPY		telegraf* /
+COPY		health_check.sh /
 EXPOSE		5000
 COPY		init.sh /
 ENTRYPOINT	["/init.sh"]

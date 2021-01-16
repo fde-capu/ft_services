@@ -10,5 +10,5 @@ ln /server.key /etc/nginx/ssl/server.key
 ln /server.crt /etc/nginx/ssl/server.crt
 php-fpm7 &
 nginx &
-/bin/sh /telegraf.sh
-tail -f /dev/null
+/bin/sh /telegraf.sh &
+exec /bin/sh /health_check.sh php-fpm7 nginx

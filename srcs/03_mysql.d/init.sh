@@ -1,6 +1,6 @@
 #!/bin/sh
 touch /MYSQL_CONTAINER
-set -x
+set -e
 mkdir -p /auth_pam_tool_dir/auth_pam_tool
 mkdir -p run/mysqld
 cat >> /etc/my.cnf.d/ft_services.cnf<<EOF
@@ -27,9 +27,8 @@ done
 mysql -e "CREATE DATABASE wordpress"
 mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
-pkill mysqld
 /bin/sh /telegraf.sh &
-exec "$@"
+exec /bin/sh /health_check.sh mysqld
 #mysqld --user=user42
 #exec mysqld --user=user42 && tail -f /dev/null
 

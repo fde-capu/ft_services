@@ -2,11 +2,11 @@ FROM		alpine:latest
 RUN			apk update
 RUN			apk add mysql mysql-client
 COPY		telegraf* /
-COPY		init.sh /
 COPY		wordpress.sql /
-RUN			/init.sh
+COPY		health_check.sh /
+COPY		init.sh /
 ENTRYPOINT	["/init.sh"]
-CMD			["mysqld", "--user=user42"]
+#CMD			["mysqld", "--user=user42"]
 #ENTRYPOINT	["mysqld", "--user=user42"]
 #ENTRYPOINT	["tail", "-f", "/dev/null"]
 #RUN			/init.sh
