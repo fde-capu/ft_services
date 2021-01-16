@@ -9,4 +9,4 @@ ln /wp-config.php /var/www/wordpress/wp-config.php
 /bin/sh /telegraf.sh &
 php-fpm7 & nginx &
 sleep 10
-exec /bin/sh /health_check_2.sh php-fpm7 nginx
+exec /bin/sh /health_check.sh php-fpm7 nginx
