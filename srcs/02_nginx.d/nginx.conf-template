@@ -9,9 +9,6 @@
         ssl_certificate /etc/nginx/ssl/server.crt;
         ssl_certificate_key /etc/nginx/ssl/server.key;
         root /www;
-        location /grafana {
-            return 307 https://$host:3000;
-        }
         location /wordpress {
             return 307 https://{WORDPRESS_EXTERNAL_IP}:5050;
         }

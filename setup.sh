@@ -7,9 +7,9 @@ SLEEP_SECONDS=30
 
 echo "\n\npre-config\n=========\n"
 sudo minikube delete
-docker rm -f `docker ps -aq`
-docker rmi -f `docker images -aq`
-sudo rm -rf ~/.minikube
+#docker rm -f `docker ps -aq`
+#docker rmi -f `docker images -aq`
+#sudo rm -rf ~/.minikube
 sudo rm -rf /ft_services-fde-capu
 set -e
 export CHANGE_MINIKUBE_NONE_USER=true
@@ -123,10 +123,5 @@ sleep 1
 # every external ip unique	OK
 
 # all watching processes
-#   mysql ok
-#	wordpress: 
-   # probe:
-# ps | grep -E "[^]]nginx|[^]]php-fpm" && echo "$? found" || echo "$? NOT found"
-
 # wordpress accounts		OK
 # review all telegrafs
