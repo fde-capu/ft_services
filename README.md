@@ -33,14 +33,18 @@ Let's get it on **clustering**!
 
 #### Passwords:
 
-|               | _user_  | _paswd_ |
-| ------------- | ------- | ------- |
-| nginx         | user42  | user42  |
-| ftps          | user42  | user42  |
-| mysql         | user42  | user42  |
-| wordpress     | _unset_ | _unset_ |
-| phpmyadmin    | user42  | user42  |
-| grafana       | admin   | admin   |
+|               | _user_  | _paswd_ | _role_      |
+| ------------- | ------- | ------- | ----------- |
+| nginx         | user42  | user42  | admin       |
+| ftps          | user42  | user42  | admin       |
+| mysql         | user42  | user42  | admin       |
+| wordpress     | user42  | user42  | admin       |
+| wordpress     | user42b | user42b | subscriber  |
+| wordpress     | user42c | user42c | contributor |
+| wordpress     | user42d | user42d | author      |
+| wordpress     | user42e | user42e | editor      |
+| phpmyadmin    | user42  | user42  | admin       |
+| grafana       | admin   | admin   | admin       |
 
 #### Notes on dependencies:
 

@@ -5,11 +5,32 @@ SSD='4g'
 DRIVER=none
 SLEEP_SECONDS=30
 
+echo "\n\ndependencies\n==========\n"
+# VM42 needs 2 CPUs
+sudo killall apt apt-get
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock*
+sudo dpkg --configure -a
+sudo apt update
+sudo apt install -y conntrack
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube
+sudo mkdir -p /usr/local/bin
+sudo install minikube /usr/local/bin
+
+# sudo pkill docker
+# sudo groupadd docker
+sudo usermod -aG docker user42
+newgrp docker
+
+
 echo "\n\npre-config\n=========\n"
 sudo minikube delete
-#docker rm -f `docker ps -aq`
-#docker rmi -f `docker images -aq`
-#sudo rm -rf ~/.minikube
+docker rm -f `docker ps -aq`
+docker rmi -f `docker images -aq`
+sudo rm -rf ~/.minikube
 sudo rm -rf /ft_services-fde-capu
 set -e
 export CHANGE_MINIKUBE_NONE_USER=true
@@ -105,14 +126,11 @@ sleep 1
 #
 #
 
+# goos use of 42 linux VM:
+# adjust your keyboard layout:Generic 105-key PC (intl.) / layout: Portuguese (Brazil), Portuguese (Brazil, IMB/Lenovo ThinkPad)
+
+
 # dependencies:
-#curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-#chmod +x minikube
-#➜  ~ sudo mkdir -p /usr/local/bin
-#➜  ~ sudo install minikube /usr/local/bin
-#sudo groupadd docker
-#sudo usermod -aG docker user42
-#newgrp docker
 # sudo apt install lftp # for unit test:
 # sudo pkill nginx
 # sudo apt install conntrack # for driver=none
