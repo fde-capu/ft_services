@@ -1,4 +1,4 @@
-FROM		alpine:latest
+FROM		alpine:3.12
 RUN			apk update
 RUN			apk add glib libc6-compat
 COPY		grafana-7.3.5.linux-amd64.tar.gz /
