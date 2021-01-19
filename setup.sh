@@ -1,4 +1,14 @@
 #!/bin/sh
+# VM42 needs 2 CPUs
+
+sudo apt update
+sudo apt upgrade
+sudo usermod -aG docker user42
+sudo chown user42:docker /var/run/docker.sock
+sudo apt install conntrack
+
+
+
 CPUS=3
 MEM='8g'
 SSD='4g'
@@ -6,7 +16,7 @@ DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\ndependencies\n==========\n"
-# VM42 needs 2 CPUs
+
 #sudo killall apt apt-get
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
@@ -23,10 +33,16 @@ sudo install minikube /usr/local/bin
 
 #? sudo pkill docker
 ## sudo groupadd docker
-sudo usermod -aG docker user42
-chown user42:root /var/run/docker*
 
-###################### REBOOT THE TERMINAL!!
+#####################
+#####################
+#####################
+#####################
+# REBOOT THE TERMINAL!!
+#####################
+#####################
+#####################
+#####################
 
 echo "\n\npre-config\n=========\n"
 sudo minikube delete
