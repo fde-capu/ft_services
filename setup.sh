@@ -7,24 +7,26 @@ SLEEP_SECONDS=30
 
 echo "\n\ndependencies\n==========\n"
 # VM42 needs 2 CPUs
-sudo killall apt apt-get
+#sudo killall apt apt-get
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock*
 sudo dpkg --configure -a
 sudo apt update
-sudo apt install -y conntrack
+
+sudo apt install -y ssh conntrack
 
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 chmod +x minikube
 sudo mkdir -p /usr/local/bin
 sudo install minikube /usr/local/bin
 
-# sudo pkill docker
-# sudo groupadd docker
+#? sudo pkill docker
+## sudo groupadd docker
 sudo usermod -aG docker user42
-newgrp docker
+chown user42:root /var/run/docker*
 
+###################### REBOOT THE TERMINAL!!
 
 echo "\n\npre-config\n=========\n"
 sudo minikube delete
@@ -38,7 +40,7 @@ export CHANGE_MINIKUBE_NONE_USER=true
 echo "\n\nminikube start\n===========\n"
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
-ssh-keygen -R $mkip
+#ssh-keygen -R $mkip
 #sudo kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
 echo "\n\nminikube ip check\n===========\n"
@@ -74,29 +76,29 @@ docker build -t influxdb:service srcs/08_influxdb.d
 #echo "\n\nkubectl apply -k srcs/.\n===========\n"
 #kubectl apply -v2 -k srcs/.
 echo "\n\nkubectl applies\n===========\n"
+kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/03_mysql.yaml
-wpexip="<pending>"
-while [ "$wpexip" = "<pending>" ]; do
+waitip="<pending>"
+while [ "$waitip" = "<pending>" ]; do
 echo -n "."
-wpexip=$(kubectl get svc | grep mysql | awk '{printf "%s", $4}')
+waitip=$(kubectl get svc | grep mysql | awk '{printf "%s", $3}')
 sleep 2
 done
 kubectl apply -f srcs/01_metallb.yaml
 kubectl apply -f srcs/04_wordpress.yaml
-kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/05_phpmyadmin.yaml
 kubectl apply -f srcs/06_ftps.yaml
 kubectl apply -f srcs/08_influxdb.yaml
 kubectl apply -f srcs/07_grafana.yaml
 
 echo "\n\nBuild and apply: 02_nginx\n===========\n"
-wpexip="<pending>"
-while [ "$wpexip" = "<pending>" ]; do
+waitip="<pending>"
+while [ "$waitip" = "<pending>" ]; do
 echo -n "."
-wpexip=$(kubectl get svc | grep wordpress | awk '{printf "%s", $4}')
+waitip=$(kubectl get svc | grep wordpress | awk '{printf "%s", $4}')
 sleep 3
 done
-sed "s/{WORDPRESS_EXTERNAL_IP}/$wpexip/g" srcs/02_nginx.d/nginx.conf-template > srcs/02_nginx.d/nginx.conf
+sed "s/{WORDPRESS_EXTERNAL_IP}/$waitip/g" srcs/02_nginx.d/nginx.conf-template > srcs/02_nginx.d/nginx.conf
 docker build -t nginx:service srcs/02_nginx.d
 kubectl apply -f srcs/02_nginx.yaml
 
