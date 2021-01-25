@@ -51,6 +51,9 @@ fi
 echo -n "Do you want to wipe clean the docker images and containers on this machine (y/N)? "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
+	sudo usermod -aG docker user42
+	sudo chown user42:docker /run/docker.sock
+	ls -l /run/docker.sock
 	docker rm -f `docker ps -aq`
 	docker rmi -f `docker images -aq`
 fi
