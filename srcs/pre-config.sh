@@ -13,6 +13,12 @@ echo "\n\nFT_SERVICES\nby fde-capu\n\npre-config\n=========\n"
 ### sudo apt install -y ssh
 ### sudo pkill nginx
 
+echo -n "\`pkill nginx\`? This should avoid conflict. (y/N)? "
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ;then
+	sudo pkill nginx
+fi
+
 echo -n "Do you want to \`sudo apt update && sudo apt upgrade\`? ... you may need to manually run these commands a bunch of times until there is nothing else to upgrade. (y/N)? "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
