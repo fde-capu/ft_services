@@ -40,6 +40,7 @@ echo -n "Set user42:docker permission for /var/var/docker.sock? This is also a m
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
 	sudo chown user42:docker /var/run/docker.sock
+	ls -l /var/run/docker.sock
 fi
 
 echo -n "Do you want to reset minikube caches (y/N)? "
