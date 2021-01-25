@@ -67,6 +67,5 @@ sleep $SLEEP_SECONDS
 ctl/logs.sh
 
 echo \
-	'\n42 São Paulo :: ft_services :: fde-capu\n'
+	'\n42 São Paulo :: ft_services :: fde-capu :: Welcome!\n'
 sleep 1
-

@@ -29,7 +29,7 @@ Let's get it on **clustering**!
 
 - `./setup.sh` : resets Minikube and mount everything over. You must be sudo because of virtual-inside-virtual (`minikube driver=none`) setup.
 - `ctl/logs.sh` : logs current Kubernetes status.
-- `cd ctl && unit.sh` : run some tests. Requires python3 and lftp. Edit `ctl/unit.sh` to setup the default user and password.
+- `ctl/unit.sh` : run some tests. Requires python3 and lftp. Edit `ctl/unit.sh` to setup the default user and password.
 
 #### Passwords:
 
@@ -79,8 +79,6 @@ Let's get it on **clustering**!
 - Use `ssh user42@$(minikube ip)`; password: "user42".
 - To login into ftps, use: `lftp $(minikube ip)`. Then `set ssl:verify-certificate no` and `user user42`; password: "user42".
 - Three volumes are persistent and shared, the sql db, influx and /home (/home is accessible through ssh `nginx:22` and ftp `ftps`).
-- mysql-client is installed on nginx for ease when interacting with `ssh -h mysql -uuser42 -puser42`.
-- URL /grafana redirects to port 3000 (unrequested feature).
 - Use `source <(kubectl completion zsh)` for extra adrenaline when interacting with `kubectl`.
 
 ---
@@ -89,6 +87,6 @@ Let's get it on **clustering**!
 
 ---
 
-Copyright 2020 fde-capu
+Copyright 2021 fde-capu
 
-This is how I made a Kjubernetes project, afterall, researching on the Internet. I am happy if you find it usefull to your studies. If you find anything profitable, do not use it without getting in touch, and we can work together.
+This is how I have made a Kubernetes project, afterall, researching on the Internet. I am happy if you find it usefull to your studies. If you find anything profitable, do not use it without getting in touch, and we can work together.

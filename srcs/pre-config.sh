@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "\n\npre-config\n=========\n"
+echo "\n\nFT_SERVICES\nby fde-capu\n\npre-config\n=========\n"
 
 # VM42 needs 2 CPUs
 # VM Specs:
@@ -12,8 +12,9 @@ echo "\n\npre-config\n=========\n"
 # may need to:
 ### sudo usermod -aG docker user42
 ### sudo apt install -y ssh
+### sudo pkill nginx
 
-echo -n "Do you want to \`sudo apt-update && apt-upgrade\` (y/N)? ... you may need to manually run these commands a bunch of times until there is nothing else to upgrade."
+echo -n "Do you want to \`sudo apt update && sudo apt upgrade\`? ... you may need to manually run these commands a bunch of times until there is nothing else to upgrade. (y/N)? "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
 	sudo apt update
@@ -61,4 +62,5 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
 	sudo rm -rf /ft_services-fde-capu
 fi
 
-echo \n"pre-configuration done.\n\n"
+echo "\n\npre-configuration done.\n\n"
+sleep 1

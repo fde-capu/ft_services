@@ -29,8 +29,3 @@ mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
 /bin/sh /telegraf.sh &
 exec /bin/sh /health_check.sh mysqld
-#mysqld --user=user42
-#exec mysqld --user=user42 && tail -f /dev/null
-
-#mysql -e "FLUSH PRIVILEGES"
-#sleep 5
