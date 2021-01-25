@@ -10,7 +10,6 @@ echo "\n\nFT_SERVICES\nby fde-capu\n\npre-config\n=========\n"
 # Enabled Nested Paging
 # Oracle Extension Pack 6.1.14
 # may need to:
-### sudo usermod -aG docker user42
 ### sudo apt install -y ssh
 ### sudo pkill nginx
 
@@ -39,6 +38,7 @@ fi
 echo -n "Set user42:docker permission for /var/var/docker.sock? This is also a must. (y/N)? "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
+	sudo usermod -aG docker user42
 	sudo chown user42:docker /var/run/docker.sock
 	ls -l /var/run/docker.sock
 fi
