@@ -25,6 +25,10 @@ echo "\n\nBuild: 08_influxdb\n===========\n"
 docker build -t influxdb:service srcs/08_influxdb.d
 
 echo "\n\nkubectl applies\n===========\n"
+sudo usermod -aG docker user42
+sudo chown user42:docker /var/run/docker.sock
+ls -l /var/run/docker.sock
+
 kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/03_mysql.yaml
 waitip="<pending>"

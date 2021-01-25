@@ -41,14 +41,6 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
 	sudo install minikube /usr/local/bin
 fi
 
-echo -n "Set user42:docker permission for /var/var/docker.sock? This is also a must. (y/N)? "
-read answer
-if [ "$answer" != "${answer#[Yy]}" ] ;then
-	sudo usermod -aG docker user42
-	sudo chown user42:docker /var/run/docker.sock
-	ls -l /var/run/docker.sock
-fi
-
 echo -n "Do you want to reset minikube caches (y/N)? "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
@@ -70,4 +62,24 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
 fi
 
 echo "\n\npre-configuration done.\n\n"
+sleep 1
+echo "T-10"
+sleep 1
+echo "T-9"
+sleep 1
+echo "T-8"
+sleep 1
+echo "T-7"
+sleep 1
+echo "T-6"
+sleep 1
+echo "T-5"
+sleep 1
+echo "T-4"
+sleep 1
+echo "T-3"
+sleep 1
+echo "T-2"
+sleep 1
+echo "T-1"
 sleep 1
