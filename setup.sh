@@ -10,13 +10,6 @@ echo "\n\nminikube ignite\n===========\n"
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
 mkip=`minikube ip`
 
-set -e
-export CHANGE_MINIKUBE_NONE_USER=true
-
-echo "\n\nminikube start\n===========\n"
-sudo -E minikube start --v=7 --vm-driver=$DRIVER
-mkip=`minikube ip`
-
 echo "\n\nBuild: 03_mysql\n===========\n"
 docker build -t mysql:service srcs/03_mysql.d
 echo "\n\nBuild: 04_wordpress\n===========\n"
