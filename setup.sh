@@ -1,18 +1,33 @@
 #!/bin/sh
 # VM42 needs 2 CPUs
 
+DRIVER=none
+
 sudo apt update
 sudo apt upgrade
 sudo usermod -aG docker user42
 sudo chown user42:docker /var/run/docker.sock
 sudo apt install conntrack
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube
+sudo mkdir -p /usr/local/bin
+sudo install minikube /usr/local/bin
+
+# RESTART
+
+export CHANGE_MINIKUBE_NONE_USER=true
+sudo -E minikube start --v=7 --vm-driver=$DRIVER
+mkip=`minikube ip`
+
+echo "\n\nminikube addons enable metallb\n===========\n"
+sudo -E minikube addons enable metallb
+
 
 
 
 CPUS=3
 MEM='8g'
 SSD='4g'
-DRIVER=none
 SLEEP_SECONDS=30
 
 echo "\n\ndependencies\n==========\n"
@@ -26,10 +41,6 @@ sudo apt update
 
 sudo apt install -y ssh conntrack
 
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-chmod +x minikube
-sudo mkdir -p /usr/local/bin
-sudo install minikube /usr/local/bin
 
 #? sudo pkill docker
 ## sudo groupadd docker
@@ -72,9 +83,6 @@ sleep 5
 #echo "\n\nvsftpd.conf add pasv_address=$mkip \n========"
 cp srcs/06_ftps.d/vsftpd.conf-template srcs/06_ftps.d/vsftpd.conf
 #echo "pasv_address=$ftpsip" >> srcs/06_ftps.d/vsftpd.conf
-
-echo "\n\nminikube addons enable metallb\n===========\n"
-sudo -E minikube addons enable metallb
 
 echo "\n\nBuild: 03_mysql\n===========\n"
 docker build -t mysql:service srcs/03_mysql.d
