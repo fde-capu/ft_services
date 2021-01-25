@@ -9,6 +9,7 @@ export CHANGE_MINIKUBE_NONE_USER=true
 
 echo "\n\nminikube ignite\n===========\n"
 sudo -E minikube start --v=7 --vm-driver=$DRIVER
+sudo minikube kubectl -- get pods -A
 mkip=`minikube ip`
 
 echo "\n\nBuild: 03_mysql\n===========\n"
