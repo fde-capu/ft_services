@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 minikube status
 
@@ -20,12 +20,13 @@ pip="$(kubectl get svc | grep phpmyadmin | awk '{printf "%s", $4}')"
 fip="$(kubectl get svc | grep ftps | awk '{printf "%s", $4}')"
 gip="$(kubectl get svc | grep grafana | awk '{printf "%s", $4}')"
 
-echo "For interactive terminal, click:"
-echo ""
-echo "https://$nip"
-echo "https://$nip/wordpress"
-echo "https://$nip/phpmyadmin"
-echo "https://$gip:3000"
-echo "https://$wip:5050"
-echo "https://$pip:5000"
-echo "ftp://$pip"
+echo "\nFor interactive terminal, click:"
+echo "\n"
+echo "nginx: https://$nip"
+echo "wordpress: https://$wip:5050"
+echo "wordpress login: https://$wip:5050/wp-login.php"
+echo "phpmyadmin direct: https://$pip:5000"
+echo "phpmyadmin reverse proxy: https://$nip/phpmyadmin"
+echo "ftp: $fip (for test, use 'lftp' instead of 'ftp', because of ssl. Then 'user user42' and 'set ssl:verify-certificate no'."
+echo "grafana: https://$gip:3000"
+echo "\n"

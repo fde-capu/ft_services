@@ -24,8 +24,10 @@ while [ ! -S /var/run/mysqld/mysqld.sock ]; do
 	echo -n '.'
 	sleep 1
 done
+set +e
 mysql -e "CREATE DATABASE wordpress"
 mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
+set -e
 /bin/sh /telegraf.sh &
-exec /bin/sh /health_check.sh mysqld
+exec /bin/sh /health_check.sh mysqld telegraf

@@ -12,6 +12,7 @@ sudo -E minikube start --v=7 --vm-driver=$DRIVER
 sudo usermod -aG docker user42
 sudo chown user42:docker /run/docker.sock
 ls -l /run/docker.sock
+sleep 10
 sudo minikube kubectl -- get pods -A
 mkip=`minikube ip`
 
@@ -31,7 +32,6 @@ docker build -t influxdb:service srcs/08_influxdb.d
 echo "\n\nkubectl applies\n===========\n"
 sudo usermod -aG docker user42
 sudo chown user42:docker /run/docker.sock
-ls -l /run/docker.sock
 
 kubectl apply -f srcs/01.5_vols.yaml
 kubectl apply -f srcs/03_mysql.yaml
