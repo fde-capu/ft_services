@@ -16,15 +16,14 @@ echo 'user42:user42' | chpasswd
 chown user42:root /var/lib/mysql
 chown user42:root /auth_pam_tool_dir/auth_pam_tool
 chown user42:root /var/run/mysqld
-#chown user42:root ??
 
+set +e
 mysql_install_db --user=user42 --basedir=/usr --datadir=/var/lib/mysql
 mysqld --user=user42 &
 while [ ! -S /var/run/mysqld/mysqld.sock ]; do
 	echo -n '.'
 	sleep 1
 done
-set +e
 mysql -e "CREATE DATABASE wordpress"
 mysql "--user=root" "--password=" wordpress < /wordpress.sql
 mysql -e "GRANT ALL ON *.* TO 'user42'@'%' IDENTIFIED BY 'user42' WITH GRANT OPTION"
