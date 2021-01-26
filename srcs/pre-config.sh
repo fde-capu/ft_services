@@ -29,9 +29,10 @@ if [ "$answer" != "${answer#[Yy]}" ] ;then
 	sudo apt upgrade
 fi
 
+echo "\n"
 if ! dpkg -s conntrack >> /dev/null ;
 then
-	echo -n "\nInstall 'conntrack'? This MUST be installed for the 'none' minikube driver to work. (y/N)? "
+	echo -n "Install 'conntrack'? This MUST be installed for the 'none' minikube driver to work. (y/N)? "
 	read answer
 	if [ "$answer" != "${answer#[Yy]}" ] ;then
 		sudo apt install -y conntrack
