@@ -1,6 +1,8 @@
 #!/bin/sh
 
 echo "\n\nFT_SERVICES\nby fde-capu\n\npre-config\n=========\n"
+sudo touch sudo_test
+sudo rm sudo_test
 
 # VM42 needs 2 CPUs
 # VM Specs:
