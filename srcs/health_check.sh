@@ -1,4 +1,5 @@
 #!/bin/sh
+sleep 15
 while true
 do
 	sleep 3

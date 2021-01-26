@@ -12,6 +12,8 @@ echo "\n\nFT_SERVICES\nby fde-capu\n\npre-config\n=========\n"
 # may need to:
 ### sudo apt install -y ssh
 ### sudo pkill nginx
+# for the 42 VM Machine:
+# sudo apt remove unattended-upgrades
 
 if pgrep nginx >> /dev/null ;
 then
