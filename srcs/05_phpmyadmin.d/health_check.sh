@@ -1,5 +1,5 @@
 #!/bin/sh
-sleep 120
+sleep 240
 while true
 do
 	sleep 3
