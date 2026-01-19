@@ -1,0 +1,27 @@
+Send file over ssh?
+
+>>>
+Use `scp`, `sftp`, or `rsync`.
+
+**scp** (secure copy)
+To send a file:
+`scp /path/to/local/file user@remotehost:/path/to/remote/directory`
+
+To receive a file:
+`scp user@remotehost:/path/to/remote/file /path/to/local/directory`
+
+**sftp** (secure file transfer protocol)
+Start an interactive session:
+`sftp user@remotehost`
+Then, use commands like `put` or `get`:
+`put /path/to/local/file` (to send)
+`get /path/to/remote/file` (to receive)
+
+**rsync** (remote synchronization, uses SSH by default)
+To send a file or directory:
+`rsync -avz /path/to/local/source user@remotehost:/path/to/remote/destination`
+
+To receive a file or directory:
+`rsync -avz user@remotehost:/path/to/remote/source /path/to/local/destination`
+<<<
+
